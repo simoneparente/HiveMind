@@ -1,9 +1,9 @@
 DROP SCHEMA IF EXISTS h CASCADE;
 
-CREATE SCHEMA h;
+CREATE SCHEMA IF NOT EXISTS h ;
 
 
-CREATE TABLE h.Utente(
+CREATE TABLE IF NOT EXISTS h.Utente(
     ID_Utente SERIAL,
     Username  VARCHAR(50) NOT NULL,
     Email     VARCHAR(50) NOT NULL,
@@ -14,9 +14,9 @@ CREATE TABLE h.Utente(
     CONSTRAINT UN_Username UNIQUE(Username)
 );
 
-CREATE TABLE h.Idea(
+CREATE TABLE IF NOT EXISTS h.Idea(
     ID_Idea SERIAL,
-    ID_Utente INTEGER,
+    ID_Utente INTEGER NOT NULL,
     Titolo   VARCHAR(50) NOT NULL,
     Descrizione VARCHAR(400) NOT NULL,
     DataOra TIMESTAMP NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE h.Idea(
     CONSTRAINT FK_Idea_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Utente(ID_Utente)
 );
 
-CREATE TABLE h.Voto(
+CREATE TABLE IF NOT EXISTS h.Voto(
     ID_Utente INTEGER NOT NULL,
     ID_Idea INTEGER NOT NULL,
     Tipo VARCHAR(32) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE h.Voto(
     CONSTRAINT FK_Voto_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idea(ID_Idea)
 );
 
-CREATE TABLE h.Commento(
+CREATE TABLE IF NOT EXISTS h.Commento(
     ID_Commento SERIAL,
     ID_Utente INTEGER,
     ID_Idea INTEGER,
@@ -47,20 +47,67 @@ CREATE TABLE h.Commento(
     CONSTRAINT FK_Commento_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idea(ID_Idea)
 );
 
--- Un utente non può votare la propria idea
-CREATE FUNCTION h.checkUserIsNotAuthor() RETURNS TRIGGER AS $$
+------------------------------------------------------------------------------------------------------------------------
+
+CREATE FUNCTION h.countSaldoVoti(ID_IdeaIn INTEGER) RETURNS INTEGER AS $$
+    DECLARE
+        saldo INTEGER = 0;
+        cursoreVoti CURSOR FOR SELECT tipo
+                               FROM h.Voto AS V
+                               WHERE V.id_idea = ID_IdeaIn  ;
     BEGIN
-        IF NEW.ID_Utente = (SELECT ID_Utente FROM h.Idea WHERE ID_Idea = NEW.ID_Idea) THEN
-            RAISE EXCEPTION 'L''utente non può votare la propria idea';
-        END IF;
+        FOR voto IN cursoreVoti LOOP
+            IF voto.tipo = 'upvote' THEN
+                saldo = saldo + 1;
+            ELSEIF voto.tipo = 'downvote' THEN
+                saldo = saldo - 1;
+            END IF;
+        END LOOP;
+        RETURN saldo;
+    END;
+    $$ LANGUAGE plpgsql;
+
+
+--View di appoggio per creare la vista IdeaUtenteVotiNewest
+CREATE OR REPLACE VIEW h.IdeaUtente AS
+    SELECT I.ID_Idea,
+           U.username as Creatore,
+           I.titolo AS Titolo,
+           I.descrizione as Descrizione,
+           I.dataora AS DataOra
+    FROM h.Idea AS I JOIN h.Utente AS U
+         ON I.ID_Utente = U.ID_Utente;
+
+-- Vista che restituisce le idee ordinate dalla più recente
+CREATE VIEW h.IdeaUtenteVotiNewest AS
+    SELECT IU.ID_Idea,
+           IU.Creatore,
+           IU.Titolo,
+           IU.Descrizione,
+           IU.DataOra,
+           h.countSaldoVoti(IU.ID_Idea) AS SaldoVoti
+    FROM h.IdeaUtente AS IU
+    ORDER BY IU.DataOra DESC;
+
+--View per inserir nuove idee
+CREATE VIEW h.ins_Idea AS
+    SELECT U.username AS Username, I.titolo as Titolo, I.descrizione AS Descrizione, I.dataora as DataOra
+    FROM h.Idea AS I, h.Utente AS U;
+
+CREATE OR REPLACE FUNCTION h.insIdea() RETURNS TRIGGER AS $$
+    DECLARE
+        userID INTEGER = (SELECT ID_Utente
+                             FROM h.Utente
+                             WHERE username = NEW.username);
+    BEGIN
+        INSERT INTO h.Idea(ID_Utente, Titolo, Descrizione, DataOra)
+        VALUES(userID, NEW.Titolo, NEW.Descrizione, NEW.DataOra);
         RETURN NEW;
     END;
-    $$
-    LANGUAGE plpgsql;
+    $$ LANGUAGE plpgsql;
 
-CREATE TRIGGER T_Voto_checkUserIsNotAuthor
-    BEFORE INSERT ON h.Voto
-    EXECUTE FUNCTION h.checkUserIsNotAuthor();
-
-------------------------------------------------------------------------------------------------------------------------
+CREATE TRIGGER ins_Idea
+    INSTEAD OF INSERT ON h.ins_Idea
+    FOR EACH ROW
+    EXECUTE FUNCTION h.insIdea();
 
