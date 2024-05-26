@@ -1,12 +1,24 @@
-import postgres from 'postgres'
-
-const sql = postgres('postgres://postgres:1234@localhost:5432/postgres', {
-  host                 : 'localhost',            // Postgres ip address[s] or domain name[s]
-  port                 : 5432,          // Postgres server port[s]
-  database             : '',            // Name of database to connect to
-  username             : 'postgres',            // Username of database user
-  password             : '1234',            // Password of database user
-})
+import { Sequelize } from 'sequelize';
 
 
-export default sql
+
+const sequelize = new Sequelize('postgres://postgres:1234@localhost:5432/postgres')
+
+
+
+
+export async function connectToDatabase() {
+  await sequelize.sync()
+  try {
+    sequelize.authenticate();
+    console.log('Connessione al database effettuata.');
+  } catch (error) {
+    console.error('Connessione al database fallita', error);
+  }
+  await sequelize.query('CREATE SCHEMA IF NOT EXISTS "h";');
+  console.log('Schema creato');
+  await sequelize.sync({ force: true }).then(() => {
+    console.log("Tabelle create");
+});
+}
+export default sequelize;
