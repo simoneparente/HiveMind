@@ -4,8 +4,10 @@ import express, { Express, Request, Response } from "express";
 import Idea from "./model/Idea";
 
 import User from "./model/User";
-import { createUser } from "./model/User";
+import { register } from "./model/User";
+
 import users from "./routes/UserRoutes";
+import ideas from "./routes/IdeasRoutes";
 
 import sequelize, { connectToDatabase } from "./data/db";
 
@@ -22,17 +24,10 @@ connectToDatabase().then(() =>{
 
   app.get("/", async (req, res) => {
     res.send("prova app.get!");
-    try {
-      await createUser("pippo", "pluto", "paperino");
-      const allUsers = await User.findAll();
-      console.log('All users:', JSON.stringify(allUsers, null, 2));
-    } catch (error) {
-      console.error('Error:', error);
-    }
   });
 
   app.use(express.json());
-  app.use("/api", users);
+  app.use("/api", users, ideas);
 
 
 

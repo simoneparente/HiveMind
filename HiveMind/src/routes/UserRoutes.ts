@@ -1,7 +1,6 @@
 import { Router } from "express";
 import sequelize from "../data/db";
-import { register } from "module";
-import User from "../model/User";
+import User, { register } from "../model/User";
 const router = Router();
 
 router.post("/register", async (req, res) => {
@@ -11,7 +10,7 @@ router.post("/register", async (req, res) => {
         let checkEmail = await User.findOne({ where: { email } });
         if (!checkUsername) {
             if (!checkEmail) {
-                await User.create({ email, username, password });
+                await register(username, email, password);
                 res.send("Utente inserito");
             } else {
                 res.send("Email già esistente");

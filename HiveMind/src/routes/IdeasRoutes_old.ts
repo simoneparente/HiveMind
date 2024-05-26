@@ -1,4 +1,4 @@
-import { Router } from 'express';
+/*import { Router } from 'express';
 import sql from '../data/db'
 import { getCurrentTimestamp } from '../utils';
 const router = Router();
@@ -45,5 +45,6 @@ router.post('/ideas/newIdea', async (req, res) => {
     } else{
         let checkVoto = await sql`SELECT * FROM h.Voti WHERE Titolo = ${titolo} AND Creatore = ${creatore} AND Votante = ${votante}`;
         
-*/
-export default router;
+        export default router;
+        
+        */
