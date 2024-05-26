@@ -17,7 +17,7 @@ export async function connectToDatabase() {
   }
   await sequelize.query('CREATE SCHEMA IF NOT EXISTS "h";');
   console.log('Schema creato');
-  await sequelize.sync({ force: true }).then(() => {
+  await sequelize.sync({ force: false }).then(() => {
     console.log("Tabelle create");
 });
 }
