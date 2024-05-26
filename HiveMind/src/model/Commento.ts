@@ -38,6 +38,7 @@ Commento.init(
     }
 );
 
-Commento.hasOne(User, {foreignKey: 'id'});
-Commento.hasOne(Idea, {foreignKey: 'id'});
+//Commento.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
+//Commento.belongsTo(Idea, { foreignKey: 'idIdea', as: 'idea' });
+
 export default Commento;
