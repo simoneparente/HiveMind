@@ -39,8 +39,12 @@ Idea.init(
     }
 );
 
-Idea.belongsTo(User, {foreignKey: 'id'});
-Idea.hasMany(Commento, {foreignKey: 'id'});
-Idea.hasMany(Voto, {foreignKey: 'id'});
+Idea.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
+Idea.hasMany(Commento, { foreignKey: 'idIdea', as: 'commenti' });
+Idea.hasMany(Voto, { foreignKey: 'idIdea', as: 'voti' });
 
+
+export async function createIdea(idUser: number, Titolo: string, Descrizione: string, DataOra: String) {
+    return await Idea.create({idUser, Titolo, Descrizione, DataOra});
+}
 export default Idea;
