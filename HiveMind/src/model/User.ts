@@ -1,5 +1,7 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../data/db'
+import Commento from './Commento';
+import Voto from './Voto';
 
 class User extends Model{};
 
@@ -34,7 +36,10 @@ User.init(
 );
 
 
-export async function createUser(username: string, email: string, password: string) {
+User.hasMany(Commento, { foreignKey: 'idUser', as: 'commenti' });
+User.hasMany(Voto, { foreignKey: 'idUser', as: 'voti' });
+
+export async function register(username: string, email: string, password: string) {
     return await User.create({username, email, password});
 }
 
