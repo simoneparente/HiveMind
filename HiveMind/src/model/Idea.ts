@@ -2,8 +2,8 @@ import { Model, DataTypes } from 'sequelize';
 import sequelize from '../data/db'
 
 import User from './User';
-import Commento from './Commento';
-import Voto from './Voto';
+import Commento from './Comment';
+import Voto from './Vote';
 
 class Idea extends Model{};
 
@@ -39,12 +39,7 @@ Idea.init(
     }
 );
 
-Idea.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
-Idea.hasMany(Commento, { foreignKey: 'idIdea', as: 'commenti' });
-Idea.hasMany(Voto, { foreignKey: 'idIdea', as: 'voti' });
 
 
-export async function createIdea(idUser: number, Titolo: string, Descrizione: string, DataOra: String) {
-    return await Idea.create({idUser, Titolo, Descrizione, DataOra});
-}
+
 export default Idea;

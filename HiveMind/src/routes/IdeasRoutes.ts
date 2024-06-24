@@ -2,7 +2,7 @@ import { Router } from 'express';
 import sequelize from '../data/db'
 import { getCurrentTimestamp } from '../utils';
 import Idea from '../model/Idea';
-import { createIdea } from '../model/Idea';
+import { createIdea } from '../model/User';
 
 import { DataTypes } from 'sequelize';
 
@@ -51,11 +51,11 @@ router.get('/allIdeas', async (req, res) => {
 
 router.post('/ideas/newIdea', async (req, res) => {
     let timestamp = getCurrentTimestamp();
-    const { titolo, idUtente, descrizione } = req.body;
-    console.log("idUtente: ", idUtente);
+    const { titolo, username, descrizione } = req.body;
+    console.log("username: ", username);
     console.log("titolo: ", titolo);
     console.log("descrizione: ", descrizione);
-    await createIdea(idUtente, titolo, descrizione, timestamp);
+    await createIdea(username, titolo, descrizione, timestamp);
     res.send('Idea inserita');
 })
 

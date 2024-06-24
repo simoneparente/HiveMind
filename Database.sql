@@ -3,7 +3,7 @@ DROP SCHEMA IF EXISTS h CASCADE;
 CREATE SCHEMA IF NOT EXISTS h ;
 
 
-CREATE TABLE IF NOT EXISTS h.Utente(
+CREATE TABLE IF NOT EXISTS h.Users(
     ID_Utente SERIAL,
     Username  VARCHAR(50) NOT NULL,
     Email     VARCHAR(50) NOT NULL,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS h.Utente(
     CONSTRAINT UN_Username UNIQUE(Username)
 );
 
-CREATE TABLE IF NOT EXISTS h.Idea(
+CREATE TABLE IF NOT EXISTS h.Idee(
     ID_Idea SERIAL,
     ID_Utente INTEGER NOT NULL,
     Titolo   VARCHAR(50) NOT NULL,
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS h.Idea(
     DataOra TIMESTAMP NOT NULL,
 
     CONSTRAINT PK_Idea PRIMARY KEY(ID_Idea),
-    CONSTRAINT FK_Idea_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Utente(ID_Utente)
+    CONSTRAINT FK_Idea_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Users(ID_Utente)
 );
 
 CREATE TABLE IF NOT EXISTS h.Voto(
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS h.Voto(
     Tipo VARCHAR(32) NOT NULL,
 
     CONSTRAINT PK_Voto PRIMARY KEY(ID_Utente, ID_Idea),
-    CONSTRAINT FK_Voto_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Utente(ID_Utente),
-    CONSTRAINT FK_Voto_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idea(ID_Idea)
+    CONSTRAINT FK_Voto_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Users(ID_Utente),
+    CONSTRAINT FK_Voto_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idee(ID_Idea)
 );
 
 CREATE TABLE IF NOT EXISTS h.Commento(
@@ -43,8 +43,8 @@ CREATE TABLE IF NOT EXISTS h.Commento(
     DataOra TIMESTAMP NOT NULL,
 
     CONSTRAINT PK_Commento PRIMARY KEY(ID_Commento),
-    CONSTRAINT FK_Commento_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Utente(ID_Utente),
-    CONSTRAINT FK_Commento_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idea(ID_Idea)
+    CONSTRAINT FK_Commento_Utente FOREIGN KEY(ID_Utente) REFERENCES h.Users(ID_Utente),
+    CONSTRAINT FK_Commento_Idea FOREIGN KEY(ID_Idea) REFERENCES h.Idee(ID_Idea)
 );
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -67,40 +67,79 @@ CREATE FUNCTION h.countSaldoVoti(ID_IdeaIn INTEGER) RETURNS INTEGER AS $$
     END;
     $$ LANGUAGE plpgsql;
 
+CREATE OR REPLACE FUNCTION h.countVoti(ID_IdeaIN INTEGER) RETURNS INTEGER AS $$
+    DECLARE
+        voti INTEGER = 0;
+    BEGIN
+        SELECT COUNT(*)
+        INTO voti
+        FROM h.Voto AS V
+        WHERE V.ID_Idea = ID_IdeaIN;
+        RETURN voti;
+    END;
+    $$ LANGUAGE plpgsql;
 
 --View di appoggio per creare la vista IdeaUtenteVotiNewest
-CREATE OR REPLACE VIEW h.IdeaUtente AS
+CREATE OR REPLACE VIEW h.IdeeUtente AS
     SELECT I.ID_Idea,
            U.username as Creatore,
            I.titolo AS Titolo,
            I.descrizione as Descrizione,
            I.dataora AS DataOra
-    FROM h.Idea AS I JOIN h.Utente AS U
+    FROM h.Idee AS I JOIN h.Users AS U
          ON I.ID_Utente = U.ID_Utente;
 
--- Vista che restituisce le idee ordinate dalla più recente
-CREATE VIEW h.IdeaUtenteVotiNewest AS
+-- Vista che restituisce le idee più controverse della settimana (Homepage)
+CREATE VIEW h.IdeeUtenteVotiControverse AS
+    SELECT IU.ID_Idea,
+           IU.Creatore,
+           IU.Titolo,
+           IU.Descrizione,
+           IU.DataOra,
+           h.countSaldoVoti(IU.ID_Idea) AS SaldoVoti,
+           h.countVoti(IU.ID_Idea) AS TotVoti
+    FROM h.IdeeUtente AS IU
+    WHERE DataOra >= CURRENT_DATE - INTERVAL '7 days'
+    ORDER BY TotVoti DESC, SaldoVoti DESC;
+
+--Vista che restituisce le idee più mainstream della settimana
+CREATE VIEW h.IdeeUtenteVotiMainstream AS
     SELECT IU.ID_Idea,
            IU.Creatore,
            IU.Titolo,
            IU.Descrizione,
            IU.DataOra,
            h.countSaldoVoti(IU.ID_Idea) AS SaldoVoti
-    FROM h.IdeaUtente AS IU
-    ORDER BY IU.DataOra DESC;
+    FROM h.IdeeUtente AS IU
+    WHERE DataOra >= CURRENT_DATE - INTERVAL '7 days'
+    ORDER BY SaldoVoti DESC;
+
+--View che restituisce le idee più unpopular della settimana
+CREATE VIEW h.IdeeUtenteVotiUnpopular AS
+    SELECT IU.ID_Idea,
+           IU.Creatore,
+           IU.Titolo,
+           IU.Descrizione,
+           IU.DataOra,
+           h.countSaldoVoti(IU.ID_Idea) AS SaldoVoti
+    FROM h.IdeeUtente AS IU
+    WHERE DataOra >= CURRENT_DATE - INTERVAL '7 days'
+    ORDER BY SaldoVoti ASC;
+
+
 
 --View per inserir nuove idee
 CREATE VIEW h.ins_Idea AS
     SELECT U.username AS Username, I.titolo as Titolo, I.descrizione AS Descrizione, I.dataora as DataOra
-    FROM h.Idea AS I, h.Utente AS U;
+    FROM h.Idee AS I, h.Users AS U;
 
 CREATE OR REPLACE FUNCTION h.insIdea() RETURNS TRIGGER AS $$
     DECLARE
         userID INTEGER = (SELECT ID_Utente
-                             FROM h.Utente
+                             FROM h.Users
                              WHERE username = NEW.username);
     BEGIN
-        INSERT INTO h.Idea(ID_Utente, Titolo, Descrizione, DataOra)
+        INSERT INTO h.Idee(ID_Utente, Titolo, Descrizione, DataOra)
         VALUES(userID, NEW.Titolo, NEW.Descrizione, NEW.DataOra);
         RETURN NEW;
     END;
@@ -111,3 +150,16 @@ CREATE TRIGGER ins_Idea
     FOR EACH ROW
     EXECUTE FUNCTION h.insIdea();
 
+
+CREATE OR REPLACE FUNCTION h.LoadCommenti(ID_IdeaIn INTEGER) RETURNS
+    TABLE(username h.Users.username%type, testo h.Commento.testo%type, dataora h.Commento.dataOra%type) AS $$
+    BEGIN
+        RETURN QUERY SELECT U.username, C.testo, C.dataora
+                     FROM h.Commento AS C JOIN h.Users AS U
+                     ON C.id_utente = U.id_utente
+                     WHERE C.ID_Idea = ID_IdeaIn
+                     ORDER BY C.DataOra DESC;
+    END;
+    $$ LANGUAGE plpgsql;
+
+SELECT h.LoadCommenti(2);

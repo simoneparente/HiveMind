@@ -4,9 +4,9 @@ import sequelize from '../data/db'
 import User from './User';
 import Idea from './Idea';
 
-class Commento extends Model{};
+class Comment extends Model{};
 
-Commento.init(
+Comment.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -32,13 +32,11 @@ Commento.init(
     },
     {
         sequelize,
-        modelName: 'Commento',
-        tableName: "Commenti",
+        modelName: 'Comment',
+        tableName: "Comments",
         schema: "h",
     }
 );
 
-//Commento.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
-//Commento.belongsTo(Idea, { foreignKey: 'idIdea', as: 'idea' });
 
-export default Commento;
+export default Comment;

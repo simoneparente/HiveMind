@@ -31,7 +31,6 @@ Voto.init(
     }
 );
 
-//Voto.belongsTo(User, {foreignKey: 'user'});
-//Voto.belongsTo(Idea, {foreignKey: 'idea'});
+
 
 export default Voto;
