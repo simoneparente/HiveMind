@@ -1,36 +1,23 @@
-import dotenv from "dotenv";
-import express, { Express, Request, Response } from "express";
+import "./setup.ts"
+import express from 'express';
+import router  from './routes/UserRoutes.ts';
+import { cleanup } from "./data/db.ts";
 
-import users from "./routes/UserRoutes";
-import ideas from "./routes/IdeasRoutes";
-import comments from "./routes/CommentsRoutes";
+const app = express();
+const PORT = process.env.PORT;
 
-import { connectToDatabase } from "./data/db";
-
-
-import pg from 'pg';
-import { connect } from "http2";
-
-dotenv.config();
-
-const app : Express = express();
-const PORT = 3000;
-connectToDatabase().then(() =>{
-  console.log("Connesso al database");
-}).catch((e) => {
-  console.log(e);
-});
-
-app.get("/", async (req, res) => {
-    res.send("Welcome to HiveMind");
-});
+app.listen(PORT, () =>{
+    console.log(`Server running at http://localhost:${PORT}`);
+    cleanup();
+})
 
 app.use(express.json());
-app.use("/api", users, ideas, comments);
+
+app.use("/api/users", router);
+
+router.get("/", (res: Response) => {res.send("Hello Hivemind")});
 
 
 
 
-app.listen(PORT, () => {
-  console.log(`Server in ascolto http://localhost:${PORT}`);
-});
+

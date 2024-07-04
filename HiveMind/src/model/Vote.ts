@@ -1,36 +1,26 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../data/db'
+import sequelize from "../data/db";
 
-import User from './User';
-import Idea from './Idea';
+class Vote extends Model {}
 
-class Voto extends Model{};
-
-Voto.init(
-    {
-        idUser: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-        },
-        idIdea: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            primaryKey: true,
-        },
-        Tipo: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        }
+Vote.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
-        modelName: 'Voto',
-        tableName: "Voti",
-        schema: "h",
+    Vote: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+            isNumeric: true,
+        }
     }
-);
+}, {
+    sequelize,
+    modelName: 'Vote',
+    tableName: "Votes",
+    schema: "h",
+});
 
-
-
-export default Voto;
+export default Vote;

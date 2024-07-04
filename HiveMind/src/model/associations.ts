@@ -1,21 +1,21 @@
 import User from "./User";
 import Idea from "./Idea";
-import Commento from "./Comment";
-import Voto from "./Vote";
+import Comment from "./Comment.ts";
+import Vote from "./Vote";
 
 
-User.hasMany(Commento, { foreignKey: 'idUser', as: 'commenti' });
-User.hasMany(Voto, { foreignKey: 'idUser', as: 'voti' });
+User.hasMany(Comment);
+User.hasMany(Vote);
 //---------------------------------------------------------
-Idea.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
-Idea.hasMany(Commento, { foreignKey: 'idIdea', as: 'commenti' });
-Idea.hasMany(Voto, { foreignKey: 'idIdea', as: 'voti' });
+Idea.belongsTo(User);
+Idea.hasMany(Comment);
+Idea.hasMany(Vote);
 //---------------------------------------------------------
-Voto.belongsTo(User, {foreignKey: 'user'});
-Voto.belongsTo(Idea, {foreignKey: 'idea'});
+Vote.belongsTo(User);
+Vote.belongsTo(Idea);
 //---------------------------------------------------------
-Commento.belongsTo(User, { foreignKey: 'idUser', as: 'user' });
-Commento.belongsTo(Idea, { foreignKey: 'idIdea', as: 'idea' });
+Comment.belongsTo(User);
+Comment.belongsTo(Idea);
 
 
 console.log('Associazioni effettuate con successo');

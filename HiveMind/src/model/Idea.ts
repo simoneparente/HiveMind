@@ -1,45 +1,46 @@
 import { Model, DataTypes } from 'sequelize';
-import sequelize from '../data/db'
+import sequelize from "../data/db";
 
-import User from './User';
-import Commento from './Comment';
-import Voto from './Vote';
+class Idea extends Model {}
 
-class Idea extends Model{};
-
-Idea.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true
-        },
-        idUser: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-        },
-        Titolo: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        Descrizione: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-        DataOra: {
-            type: DataTypes.DATE,
-            allowNull: false
-        },
+Idea.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
     },
-    {
-        sequelize,
-        modelName: 'Idea',
-        tableName: "Ideas",
-        schema: "h",
+    title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [4, 50]
+        }
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            len: [4, 400]
+        }
+    },
+    dateTime: {
+        type: DataTypes.DATE,
+        allowNull: false
     }
+},
+    {
+    sequelize,
+    modelName: 'Idea',
+    tableName: "Ideas",
+    schema: "h",
+    hooks:{
+        beforeCreate: (idea: Idea) =>{
+            idea.dataValues.dateTime = Date.now;
+        }
+    }
+}
 );
-
-
-
 
 export default Idea;
