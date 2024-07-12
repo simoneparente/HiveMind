@@ -23,7 +23,7 @@
     margin-bottom: 20px;
   }
   
-  .login-box {
+  .register-box {
     background: #fff;
     padding: 20px;
     border-radius: 10px;
@@ -32,7 +32,7 @@
     width: 300px;
   }
   
-  .login-box h2 {
+  .register-box h2 {
     margin-bottom: 20px;
     color: #333;
   }
@@ -40,6 +40,8 @@
   .input-group {
     margin-bottom: 15px;
     text-align: left;
+    position: relative;
+    margin-top: 0.5px;
   }
   
   .input-group label {
@@ -58,15 +60,20 @@
   button {
     width: 100%;
     padding: 10px;
+    margin-top: 10px;
     border: none;
     border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #3eaeed;
+    color: #ffffff;
     font-size: 16px;
     cursor: pointer;
   }
+
+  button.navigator{
+    background-color: #6e6e6e;
+  }
   
-  button:hover {
+  button:hover:not(:disabled) {
     background-color: #0056b3;
   }
   
@@ -83,4 +90,32 @@
   p a:hover {
     text-decoration: underline;
   }
+
+  .disabled{
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
   
+
+  .showPassword{
+    position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 30%
+}
+
+  .showPassword.active{
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 55%
+}
+
