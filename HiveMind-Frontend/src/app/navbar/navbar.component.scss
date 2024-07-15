@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Play:wght@700&display=swap');
+
+$primary-orange: #FF8C00;
+$primary-blue: #0d6efd;
+$logout-color: #B23B3B;
+$logout-color-hover: #6b1d1d;
+$font-stack: Arial, sans-serif;
+
+.container {
+    display: flex;
+    height: 100vh;
+    font-family: $font-stack;
+}
+
+.nav {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    list-style: none;
+
+    .nav-link {
+        margin-bottom: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &:hover {
+            color: $primary-orange;
+        }
+    }
+}
+
+.logo {
+    margin-bottom: 20px;
+    
+
+    .logo-content {
+        display: flex;
+        align-items: center;
+
+        img {
+            width: 80px;
+            height: auto;
+        }
+        &:hover {
+            cursor: pointer;
+            opacity: 90%;
+        }
+    }
+}
+
+.play-bold {
+    font-family: "Play", $font-stack;
+    font-weight: 700;
+    font-size: 30px;
+    color: #333333;
+    transition: color 0.3s;
+
+    &:hover {
+        color: $primary-orange;
+        opacity: 100%;
+    }
+}
+
+#v-pills-logout-tab{
+    color: $logout-color;
+
+    &:hover{
+    color: $logout-color-hover;
+    }
+}
