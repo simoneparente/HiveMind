@@ -134,3 +134,4 @@ dist
 
 # JetBrains IDE folder
 .idea
+/.vscode
