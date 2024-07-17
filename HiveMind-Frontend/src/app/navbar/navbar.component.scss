@@ -18,8 +18,8 @@ $font-stack: Arial, sans-serif;
     padding: 0px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     list-style: none;
+    height: 100vh;
 
     .nav-link {
         margin-bottom: 10px;
@@ -65,10 +65,25 @@ $font-stack: Arial, sans-serif;
     }
 }
 
-#v-pills-logout-tab{
-    color: $logout-color;
 
-    &:hover{
-    color: $logout-color-hover;
+.logout {
+    display: flex;
+    align-items: center;
+    color: $logout-color;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+        color: $logout-color-hover;
+    }
+
+    #logout-icon {
+        color: $logout-color;
+        margin-left: 10px; 
+        height: 22px;
+        width: 22px;
+        &:hover{
+            color: $logout-color-hover;
+        }
     }
 }
