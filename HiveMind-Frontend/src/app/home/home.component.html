@@ -1,38 +1,7 @@
 <div class="container">
-    <div class="sidebar">
-      <div class="logo">
-        <div class="logo-content" (click)="navigateToHome()">
-          <img [src]="logo">
-          <span class="logo-text play-bold" >HiveMind</span>
-        </div>
-      </div>
-      <ul class="menu">
-        <li class="controversial">Controversial</li>
-        <li class="unpopular">Unpopular</li>
-        <li class="mainstream">Mainstream</li>
-      </ul>
-      <div class="profile-section">
-        <div class="profile">Profile</div>
-        <div class="logout">Log Out</div>
-      </div>
-    </div>
+  <app-navbar class="navbar"></app-navbar>
     <div class="content">
-      <div class="idea-concept">
-        <div class="idea-input">
-          <textarea placeholder="Scrivi la tua idea qui"></textarea>
-          <button></button>
-        </div>
-        <div class="idea-list">
-          <div class="idea-item">
-            <div class="user">Generic User</div>
-            <div class="idea-content">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
-            <div class="votes">
-              <span class="upvote">▲</span>
-              <span class="downvote">▼</span>
-            </div>
-            <div class="comment-icon">💬</div>
-          </div>
-        </div>
-      </div>
+      <app-new-idea-box></app-new-idea-box>
     </div>
-  </div>
+    <app-idea-box></app-idea-box>
+</div>

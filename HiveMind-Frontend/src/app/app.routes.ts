@@ -3,13 +3,13 @@ import {LoginComponent} from './login/login.component'
 import { RegisterComponent } from '../register/register.component';
 import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
-import { NavbarComponent } from './navbar/navbar.component';
 
 export const routes: Routes = [
     {
         path: "",
-        title: "Prova",
-        component: AppComponent,
+        pathMatch: 'full',
+        redirectTo: "/home",
+        title: "Redirect...",
     },
     {
         path: "login",
@@ -26,9 +26,14 @@ export const routes: Routes = [
         title: "Home",
         component: HomeComponent
     },
+    /*{
+        path: "unpopular",
+        title: "Unpopular",
+        //component: UnpopularIdeasComponent
+    },
     {
-        path: "navbar",
-        title: "navbar",
-        component: NavbarComponent
-    }
+        path: "mainstream",
+        title: "Mainstream",
+        //component: MainstreamIdeasComponent
+    }*/
 ];
