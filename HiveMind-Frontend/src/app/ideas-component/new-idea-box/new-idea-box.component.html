@@ -1,0 +1,17 @@
+<div>
+  <form [formGroup]="ideaForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input type="text" class="form-control" id="title" formControlName="title">
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" formControlName="description"></textarea>
+    </div>
+    <button type="submit" [disabled]="ideaForm.invalid">Submit</button>
+  </form>
+  <h6>Markdown Preview:</h6>
+  <div class="markdown-container">
+    <markdown [data]="ideaForm.controls.description.value">Visualizing markdown preview</markdown>
+  </div>
+</div>
