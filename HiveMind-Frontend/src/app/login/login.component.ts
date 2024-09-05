@@ -1,8 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
+import { last, lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -40,13 +40,16 @@ export class LoginComponent {
   async sendLoginRequest(json: string) {
     console.log(json);
     try {
-      const data = await lastValueFrom(this.http.post('http://localhost:3000/api/users/login', json, {
-        headers: { 'Content-Type': 'application/json' },
-        responseType: 'text'
-      }));
-      console.log(data);
-      this.router.navigate(['/button']);
-    } catch (error) {
+      const response: HttpResponse<any> = await lastValueFrom(
+        this.http.post('http://localhost:3000/api/users/login', json, {
+          headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+          observe: 'response',
+          responseType: 'text'
+        })
+      )
+      const token = response.headers.get("Authorization");
+      if(token) localStorage.setItem("Authorization", token);
+     } catch (error) {
       console.error(error);
     }
   }
