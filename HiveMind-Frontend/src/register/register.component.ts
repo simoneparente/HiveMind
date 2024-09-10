@@ -1,8 +1,11 @@
 import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
+import { AuthService } from '../app/_services/auth/auth.service';
+import { ToastrService } from 'ngx-toastr';
+import { RestBackendService } from '../app/_services/rest-backend/rest-backend.service';
 
 
 @Component({
@@ -13,53 +16,60 @@ import { lastValueFrom } from 'rxjs';
   styleUrl: './register.component.scss'
 })
 export class RegisterComponent {
+  authService = inject(AuthService);
+  toastr = inject(ToastrService);
+  restBackendService = inject(RestBackendService);
   registerForm = new FormGroup({
     username: new FormControl('', Validators.required ),
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    confirmEmail: new FormControl('', [Validators.required, Validators.email])
+    email: new FormControl('', [Validators.required, Validators.email])
   })
   showPassword = false;
   showPasswordImg = 'assets/showPassword.png';
   showPasswordAlt = 'Show Password';
 
   constructor(private router: Router, private http: HttpClient) {}
-
-  filledFields(){
-    if(this.registerForm.get('password')?.value != this.registerForm.get('confirmPassword')?.value){
-      alert("Passwords do not match")
-      return false;
+  
+  register(){
+    if(!this.checkFields()){
+      return;
+    } else{
+      const request = {
+        username: this.registerForm.value.username ?? '',
+        password: this.registerForm.value.password ?? '',
+        email: this.registerForm.value.email ?? ''
+      }
+      console.log(request);
+      this.restBackendService.register(request).subscribe({
+        error: (err) => {
+          this.toastr.error(err.error, "Error!");
+        },
+        complete: () => {
+          this.toastr.success(`${request.username}'s registration was  successful!`, `Success!`);
+          this.navigateTo("login");
+        }
+    })
     }
-    if(this.registerForm.get('email')?.value != this.registerForm.get('confirmEmail')?.value){
-      alert("Emails do not match")
-      return false;
-    }
-    return this.registerForm.valid;
   }
 
-  register(){
+  checkFields(){
     if(!this.registerForm.valid){
+      this.toastr.error("Please fill in all fields");
       return;
     }
-    const username = this.registerForm.get('username')?.value;
-    const password = this.registerForm.get('password')?.value;
-    const email = this.registerForm.get('email')?.value;
-    this.sendRegisterRequest(JSON.stringify({username, password, email}));
+    
+    if(!this.passwordMatch()){
+      this.toastr.error("Passwords do not match", "Oops! Check passwords")
+      return;
+    }
+    return true;
   }
 
-  async sendRegisterRequest(request: string){
-    try{
-      const data = await lastValueFrom(this.http.post('http://localhost:3000/api/users/register', request, {
-        headers: { 'Content-Type': 'application/json' },
-        responseType: 'text'
-      }));
-      console.log(data);
-      this.navigateTo('login');
-    } catch (error){
-      console.error(error);
-    }
+  passwordMatch() {
+    return this.registerForm.get('password')?.value === this.registerForm.get('confirmPassword')?.value;
   }
+
 
   toggleShowPassword() {
     this.showPassword = !this.showPassword;

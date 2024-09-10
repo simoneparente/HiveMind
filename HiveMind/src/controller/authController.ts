@@ -21,10 +21,12 @@ async function register(req: Request, res: Response){
         }
         const hashed = await encrypt(password);
         await User.create({username, email, password: hashed});
-        res.status(201).send(`User ${username} with email ${email}'s registration was successful!`);
+        return res.status(201).json({
+            message: `User ${username} with email ${email}'s registration was successful!`
+        });
     } catch(error){
         console.error(`Error registering user: ${error}`);
-        res.status(500).send('Internal server error');
+        return res.status(500).send('Internal server error');
     }
     }
 
@@ -46,7 +48,7 @@ async function login(req: Request, res: Response){
     }
 }
 
-function sendLoginResponse(res: Response, user: User){
+function sendLoginResponse(res: Response, user: User){  
     const token = generateToken(user);
     res.set({
         'Content-Type': 'application/json',
