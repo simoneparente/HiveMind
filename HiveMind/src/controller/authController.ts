@@ -52,7 +52,11 @@ function sendLoginResponse(res: Response, user: User){
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
     });
-    res.status(200).send(`User ${user.dataValues.username} logged in successfully!`);
+    return res.status(200).json({ 
+        message: `User ${user.dataValues.username} logged in successfully!`, 
+        token 
+      });
+    
 }
 
 

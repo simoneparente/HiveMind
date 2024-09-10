@@ -6,7 +6,7 @@ if (!DB_URL) {
   throw new Error("DB_URL not defined in .env file");
 }
 
-const sequelize = new Sequelize(DB_URL);
+const sequelize = new Sequelize(DB_URL, {logging: (msg: string) => console.log(msg)});
 
 export async function connect(){
   if(!(await sequelize.showAllSchemas({}))){
