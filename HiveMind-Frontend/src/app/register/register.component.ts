@@ -3,9 +3,9 @@ import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
-import { AuthService } from '../app/_services/auth/auth.service';
+import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { RestBackendService } from '../app/_services/rest-backend/rest-backend.service';
+import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 
 
 @Component({
