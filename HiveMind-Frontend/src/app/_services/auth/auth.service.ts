@@ -1,65 +1,93 @@
-import { Injectable, WritableSignal, computed, signal, effect } from '@angular/core';
-import { AuthStatus } from './auth-status.type';
-import {jwtDecode} from 'jwt-decode';
-import { AuthRequest } from '../rest-backend/auth-request.type';
+import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
+import { jwtDecode } from "jwt-decode";
+import { AuthState } from './auth-state.type';
+
+// Service to manage the authentication state of the user
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
-  constructor() {
-    effect(() =>{
-      const token = this.authStatus().token;
-      if(token===null) localStorage.removeItem("token");
-      else{
-        localStorage.setItem("token", token);
-      }
-      const user = this.authStatus().username;
-      if(user===null) localStorage.removeItem("username");
-      else{
-        localStorage.setItem("username", user);
-      }
-    })
-   }
-
-  authStatus : WritableSignal<AuthStatus> = signal<AuthStatus>({
-    username : this.getUsername(),
-    token : this.getToken(),
-    isAuthenticated : this.verify(this.getToken())
-  });
-
-
-  username = computed(() => this.authStatus().username)
-  token = computed(() => this.authStatus().token)
-  isAuthenticated = computed(() => this.authStatus().isAuthenticated)
-
-  getUsername(){
-    return localStorage.getItem("username")
-  }
-
-  getToken(): string | null{
-    return localStorage.getItem("token")
-  }
-
-  verify(token: string | null): boolean {
-    if (!token) return false;
   
-    try {
-      const decodedToken = jwtDecode(token);
-      return decodedToken.exp !== undefined && Date.now() < decodedToken.exp * 1000;
-    } catch (error) {
-      return false;
-    }
+  authState: WritableSignal<AuthState> = signal<AuthState>({
+    user: this.getUser(),
+    token: this.getToken(), //get token from localStorage, if there
+    isAuthenticated: this.verifyToken(this.getToken()) //verify it's not expired
+  })
+
+  user = computed(() => this.authState().user);
+  token = computed(() => this.authState().token);
+  isAuthenticated = computed(() => this.authState().isAuthenticated);
+
+  constructor(){
+    effect( () => {
+      const token = this.authState().token;
+      const user = this.authState().user;
+      if(token !== null){
+        localStorage.setItem("token", token);
+      } else {
+        localStorage.removeItem("token");
+      }
+      if(user !== null){
+        localStorage.setItem("username", user);
+      } else {
+        localStorage.removeItem("username");
+      }
+    });
   }
+
   updateToken(token: string): void {
     const decodedToken: any = jwtDecode(token);
-    const user = decodedToken.user;
-    this.authStatus.set({
-      username: user,
+    const user = decodedToken.username;
+    this.authState.set({
+      user: user,
       token: token,
-      isAuthenticated: this.verify(token)
+      isAuthenticated: this.verifyToken(token)
     })
-    console.log(this.authStatus);
+  }
+
+  updateUser(username: string | null) {
+    if (username) {
+      localStorage.setItem("username", username);
+    } else {
+      console.error('Invalid username value:', username);
+    }
+  }
+
+  getToken(){
+    return localStorage.getItem("token");
+  }
+
+  getUser(){
+    return localStorage.getItem("username");
+  }
+
+  verifyToken(token: string | null): boolean {
+    if(token !== null){
+      try{
+        const decodedToken = jwtDecode(token);
+        const expiration = decodedToken.exp;
+        if(expiration === undefined || Date.now() >= expiration * 1000){
+          return false; //expiration not available or in the past
+        } else {
+          return true; //token not expired
+        }
+      } catch(error) {  //invalid token
+        return false;
+      }
+    }
+    return false;
+  }
+
+  isUserAuthenticated(): boolean {
+    return this.verifyToken(this.getToken());
+  }
+
+  logout(){
+    this.authState.set({
+      user: null,
+      token: null,
+      isAuthenticated: false
+    });
   }
 }
