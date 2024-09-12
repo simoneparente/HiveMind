@@ -9,8 +9,9 @@
 }
 
 .navbar{
-    display: flex;
+    display: grid;
     flex-direction: column;
+    float:left;
 }
 
 .content {
@@ -18,11 +19,7 @@
     padding: 20px;
 }
 
-
-app-idea-box{
-    background-color: #f9f9f9;
-    padding: 10px;
-    border-radius: 5px;
-    align-items: center;
-    width: 40%;
+app-publish{
+    position: relative;
+    left: -30%;
 }

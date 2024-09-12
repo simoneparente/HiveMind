@@ -1,0 +1,44 @@
+<div class="flex w-full">
+    <div class="w-full max-w-xs">
+        <form [formGroup]="ideaForm" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="Title">
+                Title
+            </label>
+            <input type="text" formControlName="title" placeholder="Insert a title" class="input input-bordered w-full max-w-xs" />
+          </div>
+          <div class="mb-6">
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="Description">
+              Description
+            </label>
+            <textarea formControlName="description" class="textarea textarea-bordered" placeholder="Describe your idea (optional)"></textarea>
+          </div>
+          <div class="flex items-center justify-between">
+            <button class="bg-gray-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+              Back
+            </button>
+            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="button">
+                Submit
+              </button>
+          </div>
+        </form>
+      </div>
+    
+
+      <div class="divider divider-horizontal"></div>
+
+      <div class="flex flex-col bg-white px-8 py-6 max-w-sm mx-auto rounded-lg shadow-lg" #card>
+        <div class="flex justify-center items-center">
+            <a class="px-2 py-1 bg-gray-600 text-sm text-green-100 rounded" href="#">{{titlePreview}}</a>
+        </div>
+        <div class="mt-4">
+            <div class="text-lg text-gray-700 font-medium"><markdown [data]="descriptionPreview"></markdown></div>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+            <div class="flex items-center">
+                <a class="text-gray-700 text-sm mx-3" href="#">{{author}}</a>
+            </div>
+            <span class="font-light text-sm text-gray-600">{{dd}}/{{mm}}/{{yyyy}}</span>
+        </div>
+    </div>
+  </div>
