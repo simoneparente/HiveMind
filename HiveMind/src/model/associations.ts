@@ -4,18 +4,20 @@ import Comment from "./Comment.ts";
 import Vote from "./Vote";
 
 
-User.hasMany(Comment);
-User.hasMany(Vote);
-//---------------------------------------------------------
-Idea.belongsTo(User);
-Idea.hasMany(Comment);
-Idea.hasMany(Vote);
-//---------------------------------------------------------
-Vote.belongsTo(User);
-Vote.belongsTo(Idea);
-//---------------------------------------------------------
-Comment.belongsTo(User);
-Comment.belongsTo(Idea);
+export function createAssociations(){
+    User.hasMany(Comment);
+    User.hasMany(Vote);
+    //---------------------------------------------------------
+    Idea.belongsTo(User, {foreignKey: "userID"});
+    Idea.hasMany(Comment, {foreignKey: "ideaID"});
+    Idea.hasMany(Vote);
+    //---------------------------------------------------------
+    Vote.belongsTo(User, {foreignKey: "userID"});
+    Vote.belongsTo(Idea, {foreignKey: "ideaID"});
+    //---------------------------------------------------------
+    Comment.belongsTo(User, {foreignKey: "userID"});
+    Comment.belongsTo(Idea, {foreignKey: "ideaID"});
 
 
-console.log('Associazioni effettuate con successo');
+    console.log("\n\nAssociazioni effettuate con successo\n\n");
+}

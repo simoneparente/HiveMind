@@ -38,9 +38,12 @@ async function login(req: Request, res: Response){
              return res.status(400).send("Bad request");
         const {username, password} = req.body;
         const result = await AuthValidator.checkCredentials(username, password);
+
         if(!result) return res.status(401).send("Invalid credentials");
+
         const user = await User.findOne({ where: { username: username}});
         if(!user) return res.status(500).send("Internal server error");
+        
         sendLoginResponse(res, user);
     } catch(error){
         console.error(`Error logging in: ${error}`);
@@ -50,13 +53,13 @@ async function login(req: Request, res: Response){
 
 function sendLoginResponse(res: Response, user: User){  
     const token = generateToken(user);
-    res.set({
+    res.set({   
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`
     });
     return res.status(200).json({ 
         message: `User ${user.dataValues.username} logged in successfully!`, 
-        token 
+        token
       });
     
 }

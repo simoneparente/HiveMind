@@ -1,4 +1,4 @@
-  import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+  import { HttpClient,  } from '@angular/common/http';
   import { Component, inject } from '@angular/core';
   import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
   import { RouterModule, Router } from '@angular/router';
@@ -38,7 +38,6 @@
         username: this.loginForm.value.username ?? '',
         password: this.loginForm.value.password ?? ''
       }
-      console.log(request);
       this.restBackendService.login(request).subscribe({
         next: (response) => {
           this.authService.updateToken(response.token);

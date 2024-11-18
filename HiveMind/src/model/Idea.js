@@ -1,42 +1,45 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from "../data/db";
 
-class Comment extends Model {
+class Idea extends Model {
     static createModel(){
-        Comment.init({
+        Idea.init({
             id: {
                 type: DataTypes.INTEGER,
                 autoIncrement: true,
                 primaryKey: true
             },
-            text: {
+            title: {
                 type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
                     notEmpty: true,
-                    len: [1, 200]
-                },
+                    len: [4, 50]
+                }
             },
-            date: {
-                type: DataTypes.DATE,
+            description: {
+                type: DataTypes.STRING,
                 allowNull: false,
                 validate: {
-                    isDate: true
+                    notEmpty: true,
+                    len: [4, 400]
                 }
+            },
+            dateTime: {
+                type: DataTypes.DATE,
+                allowNull: false
             }
-            }, {
+        },
+        {
             sequelize,
-            modelName: 'Comment',
-            tableName: "Comments",
+            modelName: 'Idea',
+            tableName: "Ideas",
             schema: "h",
-            hooks: {
-                beforeCreate: (comment: Comment) => {
-                    comment.dataValues.date = Date.now();
-                    }
-                }
-            }
+        }
         );
     }
 }
 
-export default Comment;
+
+
+export default Idea;

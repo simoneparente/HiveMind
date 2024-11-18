@@ -1,6 +1,8 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal, Input } from '@angular/core';
 import { MarkdownModule } from 'ngx-markdown';
 import { CommentBoxComponent } from '../comment-box/comment-box.component';
+import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-idea-card',
@@ -10,19 +12,45 @@ import { CommentBoxComponent } from '../comment-box/comment-box.component';
   styleUrl: './idea-card.component.scss'
 })
 export class IdeaCardComponent {
-  title = "Sample Title";
-  description = "This is a sample description!";
-  author = "sample";
-  date = {
-    dd: String(1).padStart(2, '0'),
-    mm: String(1).padStart(2, '0'),
-    yyyy: 1970
+  restBackendService = inject(RestBackendService);
+  toastrService = inject(ToastrService);
+  @Input() ideaId!: number;
+  idea = {
+    title: "",
+    description: "",
+    username: "",
+    date: new Date(),
+  };
+  votes = {
+    upvotes: 0,
+    downvotes: 0
   }
-  nLikes = 22;
-  nDislikes = 3;
   showCommentBox = signal(false);
 
+
+  ngOnInit(){
+    console.log(`Loading idea [${this.ideaId}]`);
+    this.loadIdea();
+    console.log("Loaded");
+  }
   toggleCommentBox(){
     this.showCommentBox.update(value => !value);
   }
+
+  loadIdea() {
+    this.restBackendService.getIdeaInfo(this.ideaId).subscribe({
+      next: (response) => {
+        console.log(response)
+        this.idea = response.idea;
+        this.idea.username = response.idea.User.username;
+        this.votes.upvotes = response.upvotes;
+        this.votes.downvotes = response.downvotes;
+      },
+      error: (err) => {
+        this.toastrService.error('Error fetching idea: ', err);
+        console.log("Error: " + err.message);
+      }
+    });
+  }
+
 }

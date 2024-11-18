@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -11,9 +11,11 @@ import { Router, RouterLink} from '@angular/router';
 })
 export class NavbarComponent {
   logo = "assets/HiveMindLogo.png";
+  publishPath= "/publish";
   loginPath = "/login";
   unpopularPath = "/unpopular";
   mainstreamPath = "/mainstream";
-  constructor(private router: Router){}
+  constructor(){}
+
 
 }

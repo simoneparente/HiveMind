@@ -1,9 +1,10 @@
 import "./setup.ts"
 import express from 'express';
-import router  from './routes/UserRoutes';
+import userRouter  from './routes/UserRoutes';
 import cors from 'cors';
-import { cleanup } from "./data/db";
-import { Response } from 'express';
+import { cleanup, connect } from "./data/db";
+import ideaRouter from "./routes/IdeaRoutes.ts";
+import commentRouter from "./routes/CommentRoutes.ts";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -17,16 +18,18 @@ app.use(cors({
 
 app.listen(PORT, () =>{
     console.log(`Server running at http://localhost:${PORT}`);
-    cleanup();
+    //cleanup();
+    connect();
 })
 
 app.use(express.json());
 
-app.use("/api/users", router);
+app.use("/api/users", userRouter);
 
+app.use("/api/ideas", ideaRouter)
 
+app.use("/api/comments", commentRouter);
 
-router.get("/", (res: Response) => {res.status(200).send('Hello Hivemind')});
 
 
 
