@@ -1,3 +1,4 @@
+"use strict";
 import Idea from "../model/Idea";
 import Vote from "../model/Vote";
 import Comment from "../model/Comment";

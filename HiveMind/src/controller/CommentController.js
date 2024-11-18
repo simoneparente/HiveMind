@@ -1,9 +1,11 @@
-
+"use strict";
 import { getIdbyUsername } from "../model/User";
 import Comment from "../model/Comment";
 
 class CommentController{
-
+/*
+  * TODO: CHECK AUTHORIZATION TOKEN WITH GUARD!!!
+  */
 
     static async postComment(req, res){
         let ideaID = req.params.ideaID;
