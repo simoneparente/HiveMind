@@ -49,25 +49,20 @@ export class PublishComponent {
       this.toastr.error("An idea must have a title!");
       return;
     }
+
     const request = {
       title: this.ideaForm.value.title ?? '',
       description: this.ideaForm.value.description ?? '',
       username: localStorage.getItem("username") ?? '',
-      date: new Date(),
-      Votes:{
-        upvotes: 0,
-        downvotes: 0
-      },
-      token: this.authService.getToken()
     }
-    //this.restBackendService.publishIdea(request).subscribe({
-    //  next: (response) => {
-    //    this.toastr.success("Idea published successfully!");
-    //  },
-    //  error: (err) => {
-    //    this.toastr.error("An error occurred while publishing the idea");
-    //  }
-    //});
+    this.restBackendService.publishIdea(request).subscribe({
+      next: (response) => {
+        this.toastr.success("Idea published successfully!");
+      },
+      error: (err) => {
+        this.toastr.error("An error occurred while publishing the idea");
+      }
+    });
   }
 
 }

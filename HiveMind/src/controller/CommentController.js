@@ -20,8 +20,8 @@ class CommentController{
 
         const comment = Comment.build({
           text: req.body.text,
-          userID: user.id,
-          ideaID: ideaID,
+          userId: user.id,
+          ideaId: ideaID,
           date: new Date()
         });
         
