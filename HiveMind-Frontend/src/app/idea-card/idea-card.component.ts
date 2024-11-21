@@ -90,7 +90,7 @@ export class IdeaCardComponent {
         this.toastr.success("Downvoted!");
         this.updateVotes();
         },
-        error: (err: ResponseType) => {
+        error: (err) => {
           this.toastr.error("An error occurred while downvoting");
           console.log("Error: " + err.message);
           }
