@@ -29,6 +29,10 @@ class Idea extends Model {
             dateTime: {
                 type: DataTypes.DATE,
                 allowNull: false
+            },
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false
             }
         },
         {

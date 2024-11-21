@@ -1,6 +1,5 @@
 import express  from "express";
-import IdeaController from "../controller/ideaController"
-import { getAllIdeas } from "../controller/ideaController";
+import IdeaController, { getAllIdeas } from "../controller/IdeaController";
 
 const ideaRouter = new express.Router();
 

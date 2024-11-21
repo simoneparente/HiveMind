@@ -10,11 +10,25 @@ class Vote extends Model {
                 autoIncrement: true,
                 primaryKey: true
             },
-            Vote: {
+            vote: {
                 type: DataTypes.INTEGER,
                 allowNull: false,
                 validate: {
                     isNumeric: true,
+                }
+            },
+            userId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    isNumeric: true,
+                }
+            },
+            ideaId: {
+                type: DataTypes.INTEGER,
+                allowNull: false,
+                validate: {
+                    isNumeric: true
                 }
             }
         }, {
@@ -22,6 +36,12 @@ class Vote extends Model {
             modelName: 'Vote',
             tableName: "Votes",
             schema: "h",
+            indexes: [
+                {
+                    unique: true,
+                    fields: ['userId', 'ideaId']
+                }
+            ]
         });
     }
 }

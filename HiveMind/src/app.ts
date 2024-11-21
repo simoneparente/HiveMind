@@ -5,6 +5,7 @@ import cors from 'cors';
 import { cleanup, connect } from "./data/db";
 import ideaRouter from "./routes/IdeaRoutes.ts";
 import commentRouter from "./routes/CommentRoutes.ts";
+import voteRouter from "./routes/VoteRoutes.ts";
 
 const app = express();
 const PORT = process.env.PORT;
@@ -29,6 +30,7 @@ app.use("/api/users", userRouter);
 app.use("/api/ideas", ideaRouter)
 
 app.use("/api/comments", commentRouter);
+app.use("/api/votes", voteRouter);
 
 
 

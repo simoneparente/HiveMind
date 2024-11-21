@@ -22,7 +22,7 @@ export default class IdeaController{
         title: req.body.title,
         description: req.body.description,
         dateTime: new Date(), // or use a default value for dateTime
-        userID: user.id
+        userId: user.id
       });
 
 
@@ -40,16 +40,16 @@ export default class IdeaController{
       let idea = await Idea.findByPk(id, {
         include: [{
             model: User, // Include l'utente associato
-            attributes: ['username'], // Recupera solo il campo username
+            attributes: ['username', 'id'], // Recupera solo il campo username
         },
         {
           model: Comment,
-          attributes: ['userID', 'text', 'date']
+          attributes: ['userId', 'text', 'date']
         }]
     });
     const [upvotes, downvotes] = [
-      await Vote.count({where: {ideaID: id, Vote: 1}}),
-      await Vote.count({where: {ideaID: id, Vote: -1}})
+      await Vote.count({where: {ideaId: id, vote: 1}}),
+      await Vote.count({where: {ideaId: id, vote: -1}})
     ];
 
       if (!idea) {
