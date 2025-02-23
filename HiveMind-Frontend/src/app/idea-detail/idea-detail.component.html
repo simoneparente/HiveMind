@@ -1,0 +1,12 @@
+<div class="min-h-screen flex mx-auto">
+    <app-navbar></app-navbar>
+  
+    <div class="container flex-1 p-8">
+      <div *ngIf="idea">
+        <app-idea-card [ideaId]="ideaId"></app-idea-card>
+      </div>
+      <div *ngIf="!idea" class="text-center py-8">
+        <p class="text-gray-500">Loading idea...</p>
+      </div>
+    </div>
+  </div>

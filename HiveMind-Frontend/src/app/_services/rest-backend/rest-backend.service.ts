@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { AuthRequest } from './auth-request.type';
 import {
+  CommentType,
   IdeaPublishType,
   IdeaType,
   ResponseType,
@@ -69,6 +70,14 @@ export class RestBackendService {
   downvoteIdea(request: VoteRequest): Observable<ResponseType> {
     return this.http.put<ResponseType>(
       this.url + `/votes/downvote/:${request.ideaID}`,
+      request,
+      this.httpOptions,
+    );
+  }
+
+  publishComment(request: CommentType): Observable<ResponseType> {
+    return this.http.put<ResponseType>(
+      this.url + `/comments/${request.ideaID}`,
       request,
       this.httpOptions,
     );

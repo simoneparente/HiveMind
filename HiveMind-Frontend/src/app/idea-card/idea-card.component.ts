@@ -8,11 +8,12 @@ import {
   VoteRequest,
   CommentType,
 } from '../_services/rest-backend/idea.type';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-idea-card',
   standalone: true,
-  imports: [MarkdownModule, CommentBoxComponent],
+  imports: [MarkdownModule, RouterLink,  CommentBoxComponent],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
@@ -32,6 +33,7 @@ export class IdeaCardComponent {
     downvotes: 0,
   };
   showCommentBox = signal(false);
+  detailPath = ``;
 
   ngOnInit() {
     console.log(`[INFO] Loading idea [${this.ideaId}]`);
@@ -43,6 +45,7 @@ export class IdeaCardComponent {
     this.restBackendService.getIdeaInfo(this.ideaId).subscribe({
       next: (response) => {
         console.log(`Response for idea ${response.id}: `);
+        this.detailPath = `/idea/${response.id}`;
         console.log(response);
         this.idea.title = response.title;
         this.idea.description = response.description;
@@ -69,7 +72,8 @@ export class IdeaCardComponent {
     }
   }
 
-  upvote() {
+  upvote(event: Event) {
+    event.stopPropagation();
     const request: VoteRequest = {
       ideaID: this.ideaId,
       username: localStorage.getItem('username') ?? '',
@@ -87,7 +91,8 @@ export class IdeaCardComponent {
     });
   }
 
-  downvote() {
+  downvote(event: Event) {
+    event.stopPropagation();
     const request: VoteRequest = {
       ideaID: this.ideaId,
       username: localStorage.getItem('username') ?? '',

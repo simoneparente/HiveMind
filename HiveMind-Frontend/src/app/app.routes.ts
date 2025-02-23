@@ -3,8 +3,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { PublishComponent } from './publish/publish.component';
-import { IdeaCardComponent } from './idea-card/idea-card.component';
-import { IdeaPageComponent } from './idea-page/idea-page.component';
+import { IdeaDetailComponent } from './idea-detail/idea-detail.component';
 
 export const routes: Routes = [
   {
@@ -34,15 +33,15 @@ export const routes: Routes = [
     component: PublishComponent,
   },
   {
-    path: 'ideaCard',
-    title: 'Idea Card',
-    component: IdeaCardComponent,
+    path: 'idea/:id',
+    title: 'Idea Page',
+    component: IdeaDetailComponent,
   },
   {
-    path: 'ideaPage',
-    title: 'Idea Page',
-    component: IdeaPageComponent,
-  },
+    path: 'logout',
+    title: 'Logout',
+    redirectTo: '/login',
+  }
 
   /*{
         path: "unpopular",
