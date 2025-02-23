@@ -1,0 +1,20 @@
+22/01/2025
+- Fixed AuthController/register function
+- Added Logger class
+- Fixed AuthValidator
+- Fixed Authentication
+- Added Authorization middleware
+- Added router for authentication
+- Added associations.js
+- Added IdeaController
+- Fixed frontend authentication
+- Fixed frontend ideas retrieval (just request)
+
+20/02
+- Fixed backend idea retrieval
+- Added backend vote retrieval for ideas
+- Added frontend vote retrieval and visualizing
+- Added frontend and backend voting and vote updating
+- Checking if user is voting its own idea, if yes, error 400
+- Added comment submitting and retrieval backend
+- Changed layout of homepage (to fix)

@@ -5,8 +5,6 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './comment-box.component.html',
-  styleUrl: './comment-box.component.scss'
+  styleUrl: './comment-box.component.scss',
 })
-export class CommentBoxComponent {
-
-}
+export class CommentBoxComponent {}

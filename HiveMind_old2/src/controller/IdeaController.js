@@ -66,7 +66,7 @@ export default class IdeaController{
   }
 
   export async function getAllIdeas(req, res){
-    let ideas = await Idea.findAll()
+    let ideas = await Idea.findAll();
     return res.status(200).json(ideas);
   }
 

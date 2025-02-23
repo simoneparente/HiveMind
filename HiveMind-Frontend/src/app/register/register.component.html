@@ -1,31 +1,74 @@
-<!DOCTYPE html>
+<!doctype html>
 <div class="container">
   <div class="logo-container">
-    <img [src]="'assets/HiveMindLogo.png'" alt="HiveMind Logo">
+    <img [src]="'assets/HiveMindLogo.png'" alt="HiveMind Logo" />
   </div>
   <div class="register-box">
     <h2>Welcome to HiveMind</h2>
     <form [formGroup]="registerForm">
       <div class="input-group">
         <label for="username">Username</label>
-        <input type="text" id="username" formControlName="username" class="input" required>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="input"
+          required
+        />
       </div>
       <div class="input-group">
         <label for="email">Email</label>
-        <input type="email" id="email" formControlName="email" class="input" required>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="input"
+          required
+        />
       </div>
       <div class="input-group">
         <label for="password">Password</label>
-        <input [type]="showPassword ? 'text' : 'password'" id="password" formControlName="password" class="input" required>
-        <img [src]="showPasswordImg" (click)="toggleShowPassword()" class="showPassword" alt="Toggle Password Visibility">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="password"
+          formControlName="password"
+          class="input"
+          required
+        />
+        <img
+          [src]="showPasswordImg"
+          (click)="toggleShowPassword()"
+          class="showPassword"
+          alt="Toggle Password Visibility"
+        />
       </div>
       <div class="input-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input [type]="showPassword ? 'text' : 'password'" id="confirmPassword" formControlName="confirmPassword" class="input" required>
-        <img [src]="showPasswordImg" (click)="toggleShowPassword()" class="showPassword" alt="Toggle Password Visibility">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          id="confirmPassword"
+          formControlName="confirmPassword"
+          class="input"
+          required
+        />
+        <img
+          [src]="showPasswordImg"
+          (click)="toggleShowPassword()"
+          class="showPassword"
+          alt="Toggle Password Visibility"
+        />
       </div>
-      <button type="submit" id="registerButton" (click)="register()">Register</button>
-      <button type="reset" id="goToLogin" class="navigator" (click)="navigateTo('login')">Back</button>
+      <button type="submit" id="registerButton" (click)="register()">
+        Register
+      </button>
+      <button
+        type="reset"
+        id="goToLogin"
+        class="navigator"
+        (click)="navigateTo('login')"
+      >
+        Back
+      </button>
     </form>
   </div>
 </div>

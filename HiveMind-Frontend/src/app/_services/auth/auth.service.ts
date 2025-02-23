@@ -1,37 +1,42 @@
-import { Injectable, WritableSignal, computed, effect, signal } from '@angular/core';
-import { jwtDecode } from "jwt-decode";
+import {
+  Injectable,
+  WritableSignal,
+  computed,
+  effect,
+  signal,
+} from '@angular/core';
+import { jwtDecode } from 'jwt-decode';
 import { AuthState } from './auth-state.type';
 
 // Service to manage the authentication state of the user
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
-  
   authState: WritableSignal<AuthState> = signal<AuthState>({
     user: this.getUser(),
     token: this.getToken(), //get token from localStorage, if there
-    isAuthenticated: this.verifyToken(this.getToken()) //verify it's not expired
-  })
+    isAuthenticated: this.verifyToken(this.getToken()), //verify it's not expired
+  });
 
   user = computed(() => this.authState().user);
   token = computed(() => this.authState().token);
   isAuthenticated = computed(() => this.authState().isAuthenticated);
 
-  constructor(){
-    effect( () => {
+  constructor() {
+    effect(() => {
       const token = this.authState().token;
       const user = this.authState().user;
-      if(token !== null){
-        localStorage.setItem("token", token);
+      if (token !== null) {
+        localStorage.setItem('token', token);
       } else {
-        localStorage.removeItem("token");
+        localStorage.removeItem('token');
       }
-      if(user !== null){
-        localStorage.setItem("username", user);
+      if (user !== null) {
+        localStorage.setItem('username', user);
       } else {
-        localStorage.removeItem("username");
+        localStorage.removeItem('username');
       }
     });
   }
@@ -42,37 +47,39 @@ export class AuthService {
     this.authState.set({
       user: user,
       token: token,
-      isAuthenticated: this.verifyToken(token)
-    })
+      isAuthenticated: this.verifyToken(token),
+    });
+    console.log(this.authState);
   }
 
   updateUser(username: string | null) {
     if (username) {
-      localStorage.setItem("username", username);
+      localStorage.setItem('username', username);
     } else {
       console.error('Invalid username value:', username);
     }
   }
 
-  getToken(){
-    return localStorage.getItem("token");
+  getToken() {
+    return localStorage.getItem('token');
   }
 
-  getUser(){
-    return localStorage.getItem("username");
+  getUser() {
+    return localStorage.getItem('username');
   }
 
   verifyToken(token: string | null): boolean {
-    if(token !== null){
-      try{
+    if (token !== null) {
+      try {
         const decodedToken = jwtDecode(token);
         const expiration = decodedToken.exp;
-        if(expiration === undefined || Date.now() >= expiration * 1000){
+        if (expiration === undefined || Date.now() >= expiration * 1000) {
           return false; //expiration not available or in the past
         } else {
           return true; //token not expired
         }
-      } catch(error) {  //invalid token
+      } catch (error) {
+        //invalid token
         return false;
       }
     }
@@ -83,11 +90,11 @@ export class AuthService {
     return this.verifyToken(this.getToken());
   }
 
-  logout(){
+  logout() {
     this.authState.set({
       user: null,
       token: null,
-      isAuthenticated: false
+      isAuthenticated: false,
     });
   }
 }
