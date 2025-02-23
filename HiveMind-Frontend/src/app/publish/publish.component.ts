@@ -30,7 +30,7 @@ export class PublishComponent {
     description: new FormControl('', Validators.maxLength(400)),
   });
   descriptionPreview = '<i>Description Preview</i>';
-  author = localStorage.getItem('username');
+  author = '';
 
   today = new Date();
   dd = String(this.today.getDate()).padStart(2, '0');

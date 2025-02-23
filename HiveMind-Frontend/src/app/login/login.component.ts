@@ -35,7 +35,12 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private http: HttpClient,
-  ) {}
+  ) {
+    if(localStorage.getItem('token')) {
+      localStorage.removeItem('token');
+    }
+    
+  }
 
   login() {
     if (!this.loginForm.valid) {

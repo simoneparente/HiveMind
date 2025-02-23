@@ -5,7 +5,8 @@
   >
     <!-- Logo Section -->
     <div
-      class="w-full flex items-center justify-center md:justify-start p-2 mt-2"
+      [routerLink]="homePath"
+      class="w-full flex items-center justify-center md:justify-start p-2 mt-2 hover:cursor-pointer"
     >
       <img [src]="logo" alt="HiveMind Logo" class="h-8 md:h-12" />
       <span class="hidden md:block text-lg font-bold ml-2 hover:text-[#FF8C00]"
@@ -39,6 +40,7 @@
 
       <!-- Controversial -->
       <div
+        [routerLink]="homePath"
         class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
       >
         <svg
@@ -100,6 +102,28 @@
           />
         </svg>
         <span class="hidden md:block">Unpopular</span>
+      </div>
+
+      <!-- Logout -->
+      <div
+        [routerLink]="logoutPath"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="size-6"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M5.636 5.636a9 9 0 1 0 12.728 0M12 3v9"
+          />
+        </svg>
+        <span class="hidden md:block"> Logout </span>
       </div>
     </div>
   </aside>

@@ -11,7 +11,8 @@ import { RouterLink } from '@angular/router';
 export class NavbarComponent {
   logo = 'assets/HiveMindLogo.png';
   publishPath = '/publish';
-  loginPath = '/login';
+  homePath = '/home';
+  logoutPath = '/logout';
   unpopularPath = '/unpopular';
   mainstreamPath = '/mainstream';
   constructor() {}
