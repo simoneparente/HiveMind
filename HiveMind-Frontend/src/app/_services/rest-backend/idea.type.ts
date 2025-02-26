@@ -35,7 +35,7 @@ export interface CommentType {
   id?: number;
   text: string;
   ideaID: number;
-  username: string;
+  User: UserType;
 }
 
 /**

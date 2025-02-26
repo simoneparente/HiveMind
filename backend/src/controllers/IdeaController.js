@@ -50,7 +50,13 @@ class IdeaController{
           },
           {
             model: Comment,
-            attributes: ['userId', 'text', 'date']
+            attributes: ['text', 'date'],
+            include: [
+                {
+                    model: User,
+                    attributes: ['username'],
+                }
+            ]
           }]
       });
   

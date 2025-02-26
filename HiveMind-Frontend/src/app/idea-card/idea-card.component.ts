@@ -9,11 +9,12 @@ import {
   CommentType,
 } from '../_services/rest-backend/idea.type';
 import { RouterLink } from '@angular/router';
+import { CommentSectionComponent } from "../comment-section/comment-section.component";
 
 @Component({
   selector: 'app-idea-card',
   standalone: true,
-  imports: [MarkdownModule, RouterLink,  CommentBoxComponent],
+  imports: [MarkdownModule, RouterLink, CommentBoxComponent, CommentSectionComponent],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
@@ -36,9 +37,9 @@ export class IdeaCardComponent {
   detailPath = ``;
 
   ngOnInit() {
-    console.log(`[INFO] Loading idea [${this.ideaId}]`);
+    //console.log(`[INFO] Loading idea [${this.ideaId}]`);
     this.loadIdea();
-    console.log(`[INFO] Idea ${this.ideaId} loaded`);
+    //console.log(`[INFO] Idea ${this.ideaId} loaded`);
   }
 
   loadIdea() {
@@ -119,6 +120,16 @@ export class IdeaCardComponent {
       error: (err) => {
         this.toastr.error('Error updating votes: ', err);
         console.log('Error: ' + err.message);
+      },
+    });
+  }
+
+  addComment(comment: string) {
+    this.idea.comments.push({
+      text: comment,
+      ideaID: this.ideaId,
+      User: {
+        username: localStorage.getItem('username') ?? '',
       },
     });
   }

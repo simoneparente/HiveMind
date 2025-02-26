@@ -14,6 +14,7 @@ import { RestBackendService } from '../_services/rest-backend/rest-backend.servi
 export class CommentBoxComponent {
   @Input() ideaId!: number;
   @Output() commentAdded = new EventEmitter<string>();
+  @Output() commentError = new EventEmitter<string>();
   restBackendService = inject(RestBackendService);
 
   commentForm = new FormGroup({
@@ -22,16 +23,24 @@ export class CommentBoxComponent {
 
   submitComment() {
     if (this.commentForm.valid) {
-      this.commentAdded.emit(this.commentForm.value.comment!);
       const username: string = localStorage.getItem('username')!;
       const request: CommentType = {
         text: this.commentForm.value.comment!,
         ideaID: this.ideaId,
-        username: username
+        User: {
+          username: username,
+        },
       };
       this.restBackendService.publishComment(request).subscribe({
         next: (response) => {
-          console.log(`[INFO] Comment published: ${response.message}`);
+          //console.log(`[INFO] Comment published: ${response.message}`);
+          this.commentAdded.emit(this.commentForm.value.comment!);
+          this.commentForm.reset();
+          
+        },
+        error: (err) => {
+          console.error('Error publishing comment:', err);
+          this.commentError.emit(err);
         }
       })
     }

@@ -114,7 +114,14 @@
     </div>
     @if (showCommentBox()) {
       <div class="">
-        <app-comment-box [ideaId]="ideaId"></app-comment-box>
+        @for (comment of idea.comments; track $index) {
+          <app-comment-section
+            [username]="comment.User.username"
+            [text]="comment.text"
+            ></app-comment-section>
+
+        }
+        <app-comment-box [ideaId]="ideaId" (commentAdded)="addComment($event)"></app-comment-box>
       </div>
     }
   </div>
