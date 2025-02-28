@@ -4,6 +4,7 @@ import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
 import { PublishComponent } from './publish/publish.component';
 import { IdeaDetailComponent } from './idea-detail/idea-detail.component';
+import { CommentSectionComponent } from './comment-section/comment-section.component';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,11 @@ export const routes: Routes = [
     pathMatch: 'full',
     redirectTo: '/home',
     title: 'Redirect...',
+  },
+  {
+    path: 'home',
+    title: 'Home - HiveMind',
+    component: HomeComponent,
   },
   {
     path: 'login',
@@ -21,11 +27,6 @@ export const routes: Routes = [
     path: 'register',
     title: 'Register',
     component: RegisterComponent,
-  },
-  {
-    path: 'home',
-    title: 'Home',
-    component: HomeComponent,
   },
   {
     path: 'publish',
@@ -41,16 +42,10 @@ export const routes: Routes = [
     path: 'logout',
     title: 'Logout',
     redirectTo: '/login',
-  }
-
-  /*{
-        path: "unpopular",
-        title: "Unpopular",
-        //component: UnpopularIdeasComponent
-    },
-    {
-        path: "mainstream",
-        title: "Mainstream",
-        //component: MainstreamIdeasComponent
-    }*/
+  },
+  {
+    path: 'commentsect',
+    title: 'Comment Section',
+    component: CommentSectionComponent,
+  },
 ];

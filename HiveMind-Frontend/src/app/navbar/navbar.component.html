@@ -6,6 +6,7 @@
     <!-- Logo Section -->
     <div
       [routerLink]="homePath"
+      [queryParams]="{ sortBy: 'controversial' }"
       class="w-full flex items-center justify-center md:justify-start p-2 mt-2 hover:cursor-pointer"
     >
       <img [src]="logo" alt="HiveMind Logo" class="h-8 md:h-12" />
@@ -19,7 +20,7 @@
       <!-- Publish idea -->
       <div
         [routerLink]="publishPath"
-        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +42,8 @@
       <!-- Controversial -->
       <div
         [routerLink]="homePath"
-        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+        [queryParams]="{ sortBy: 'controversial' }"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-[#0d6efd] focus:text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,8 +64,9 @@
 
       <!-- Mainstream -->
       <div
-        [routerLink]="mainstreamPath"
-        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+        [routerLink]="homePath"
+        [queryParams]="{ sortBy: 'mainstream' }"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-[#0d6efd] focus:text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -84,8 +87,9 @@
 
       <!-- Unpopular -->
       <div
-        [routerLink]="unpopularPath"
-        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+        [routerLink]="homePath"
+        [queryParams]="{ sortBy: 'unpopular' }"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-[#0d6efd] focus:text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -107,7 +111,7 @@
       <!-- Logout -->
       <div
         [routerLink]="logoutPath"
-        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linear focus:bg-gray-800"
+        class="h-10 w-full flex items-center space-x-2 p-2 rounded-lg cursor-pointer hover:text-white hover:bg-[#0d6efd] transition duration-300 ease-linearfocus:bg-[#0d6efd] focus:text-white"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

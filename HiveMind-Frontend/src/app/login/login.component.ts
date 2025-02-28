@@ -36,10 +36,9 @@ export class LoginComponent {
     private router: Router,
     private http: HttpClient,
   ) {
-    if(localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
     }
-    
   }
 
   login() {

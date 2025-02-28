@@ -40,8 +40,12 @@ export class RestBackendService {
     );
   }
 
-  getIdeas(page: number, pageSize: number): Observable<IdeaType[]> {
-    return this.http.get<IdeaType[]>(this.url + '/ideas/get', this.httpOptions);
+  getIdeas(sortBy: string): Observable<IdeaType[]> {
+    console.log(`Request to ${this.url}/ideas/get?sortBy=${sortBy}`);
+    return this.http.get<IdeaType[]>(
+      this.url + `/ideas/get?sortBy=${sortBy}`,
+      this.httpOptions,
+    );
   }
 
   publishIdea(ideaRequest: IdeaPublishType) {

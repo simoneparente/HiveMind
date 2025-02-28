@@ -9,12 +9,17 @@ import {
   CommentType,
 } from '../_services/rest-backend/idea.type';
 import { RouterLink } from '@angular/router';
-import { CommentSectionComponent } from "../comment-section/comment-section.component";
+import { CommentSectionComponent } from '../comment-section/comment-section.component';
 
 @Component({
   selector: 'app-idea-card',
   standalone: true,
-  imports: [MarkdownModule, RouterLink, CommentBoxComponent, CommentSectionComponent],
+  imports: [
+    MarkdownModule,
+    RouterLink,
+    CommentBoxComponent,
+    CommentSectionComponent,
+  ],
   templateUrl: './idea-card.component.html',
   styleUrl: './idea-card.component.scss',
 })
@@ -45,18 +50,18 @@ export class IdeaCardComponent {
   loadIdea() {
     this.restBackendService.getIdeaInfo(this.ideaId).subscribe({
       next: (response) => {
-        console.log(`Response for idea ${response.id}: `);
         this.detailPath = `/idea/${response.id}`;
-        console.log(response);
         this.idea.title = response.title;
         this.idea.description = response.description;
         this.idea.username = response.User.username;
-        console.log(`Idea ${response.id} len:  ${response.Comments.length}`);
         this.idea.comments = response.Comments;
-        console.log(response.upvotes);
         this.votes.upvotes = response.upvotes;
         this.votes.downvotes = response.downvotes;
         this.idea.date = this.convertDate(response.dateTime);
+        //console.log(`Response for idea ${response.id}: `);
+        //console.log(response);
+        //console.log(`Idea ${response.id} len:  ${response.Comments.length}`);
+        //console.log(response.upvotes);
       },
       error: (err) => {
         this.toastr.error('Error fetching idea: ', err);

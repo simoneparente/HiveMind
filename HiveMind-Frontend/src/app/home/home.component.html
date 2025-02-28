@@ -4,19 +4,6 @@
   <!-- Contenuto -->
   <div class="flex-1 p-8">
     <!-- corrisponde alla larghezza della navbar -->
-    <div class="container">
-      <div *ngIf="isLoading" class="text-center py-8">
-        <p class="text-gray-500">Loading ideas...</p>
-      </div>
-
-      <div
-        *ngIf="!isLoading"
-        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-      >
-        <ng-container *ngFor="let idea of ideas">
-          <app-idea-card [ideaId]="idea.id!" class="w-full"></app-idea-card>
-        </ng-container>
-      </div>
-    </div>
+    <app-paginator></app-paginator>
   </div>
 </div>

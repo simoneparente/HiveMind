@@ -1,0 +1,59 @@
+<!-- Paginazione -->
+<div class="flex flex-col items-end">
+  <!-- Buttons -->
+  <div class="inline-flex mt-2 xs:mt-0">
+    <button
+      id="prevButton"
+      class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-[#0d6efd] rounded-s border-gray-300 border-solid border-1 hover:bg-[#0b5ed7] transition-colors disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+      [disabled]="currentPage == 1"
+      (click)="previousPage()"
+    >
+      Prev
+    </button>
+    <button
+      id="nextButton"
+      class="flex items-center justify-center px-3 h-8 text-sm font-medium text-white bg-[#0d6efd] rounded-e border-gray-300 border-solid border-1 hover:bg-[#0b5ed7] transition-colors disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
+      (click)="nextPage()"
+      [disabled]="currentPage == totalPages"
+    >
+      Next
+    </button>
+  </div>
+  <!-- Help text -->
+  <span class="text-sm text-gray-700 dark:text-gray-600 pt-0.5 pb-1">
+    Showing
+    <span class="font-semibold text-gray-900">
+      {{ (currentPage - 1) * itemsPerPage + 1 }}
+    </span>
+    to
+    @if (items.length >= currentPage * itemsPerPage) {
+      <span class="font-semibold text-gray-900">
+        {{ currentPage * itemsPerPage }}
+      </span>
+    } @else {
+      <span class="font-semibold text-gray-900">
+        {{ items.length }}
+      </span>
+    }
+    of
+    <span class="font-semibold text-gray-900">
+      {{ items.length }}
+    </span>
+    ideas
+  </span>
+</div>
+
+<div class="container">
+  <div *ngIf="isLoading" class="text-center py-8">
+    <p class="text-gray-500">Loading ideas...</p>
+  </div>
+
+  <div
+    *ngIf="!isLoading"
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+  >
+    <ng-container *ngFor="let idea of paginatedItems">
+      <app-idea-card [ideaId]="idea.id!" class="w-full"></app-idea-card>
+    </ng-container>
+  </div>
+</div>

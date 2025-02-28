@@ -1,10 +1,8 @@
-<div 
-  class="container px-3 sm:px-6 lg:px-10"
-  >
+<div class="container px-3 sm:px-6 lg:px-10">
   <div
     class="max-w-2xl mx-auto bg-white rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100"
-    [routerLink]='detailPath'
-    >
+    [routerLink]="detailPath"
+  >
     <!-- Card Header -->
     <div class="p-6 pb-4 hover:cursor-pointer">
       <div class="flex justify-between mb-3">
@@ -14,12 +12,12 @@
             {{ idea.username }}
           </h4>
         </div>
-        <p class="text-xs text-gray-500 ">{{ idea.date }}</p>
+        <p class="text-xs text-gray-500">{{ idea.date }}</p>
       </div>
 
       <!-- Titolo -->
       <h5
-        class=" font-bold text-gray-900 mb-2 hover:text-[#0d6efd] transition-colors"
+        class="font-bold text-gray-900 mb-2 hover:text-[#0d6efd] transition-colors"
       >
         {{ idea.title }}
       </h5>
@@ -38,7 +36,10 @@
     >
       <div class="flex items-center space-x-4">
         <!-- Upvote -->
-        <button (click)="upvote($event)" class="flex items-center space-x-1.5 group">
+        <button
+          (click)="upvote($event)"
+          class="flex items-center space-x-1.5 group"
+        >
           <svg
             class="w-5 h-5 text-gray-500 group-hover:text-[#FF8C00] transition-colors"
             fill="none"
@@ -118,10 +119,12 @@
           <app-comment-section
             [username]="comment.User.username"
             [text]="comment.text"
-            ></app-comment-section>
-
+          ></app-comment-section>
         }
-        <app-comment-box [ideaId]="ideaId" (commentAdded)="addComment($event)"></app-comment-box>
+        <app-comment-box
+          [ideaId]="ideaId"
+          (commentAdded)="addComment($event)"
+        ></app-comment-box>
       </div>
     }
   </div>

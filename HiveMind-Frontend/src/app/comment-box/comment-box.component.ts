@@ -1,5 +1,10 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CommentType } from '../_services/rest-backend/idea.type';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
@@ -36,13 +41,12 @@ export class CommentBoxComponent {
           //console.log(`[INFO] Comment published: ${response.message}`);
           this.commentAdded.emit(this.commentForm.value.comment!);
           this.commentForm.reset();
-          
         },
         error: (err) => {
           console.error('Error publishing comment:', err);
           this.commentError.emit(err);
-        }
-      })
+        },
+      });
     }
   }
 }

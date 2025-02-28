@@ -13,7 +13,5 @@ export class NavbarComponent {
   publishPath = '/publish';
   homePath = '/home';
   logoutPath = '/logout';
-  unpopularPath = '/unpopular';
-  mainstreamPath = '/mainstream';
   constructor() {}
 }

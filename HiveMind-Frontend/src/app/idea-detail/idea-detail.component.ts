@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IdeaCardComponent } from "../idea-card/idea-card.component";
+import { IdeaCardComponent } from '../idea-card/idea-card.component';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { ToastrService } from 'ngx-toastr';
 import { IdeaType } from '../_services/rest-backend/idea.type';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [IdeaCardComponent, NavbarComponent, CommonModule],
   templateUrl: './idea-detail.component.html',
-  styleUrl: './idea-detail.component.scss'
+  styleUrl: './idea-detail.component.scss',
 })
 export class IdeaDetailComponent implements OnInit {
   ideaId!: number;
@@ -20,7 +20,7 @@ export class IdeaDetailComponent implements OnInit {
   restBackendService = inject(RestBackendService);
   toastr = inject(ToastrService);
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.ideaId = +this.route.snapshot.paramMap.get('id')!;

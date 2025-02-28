@@ -17,4 +17,40 @@
 - Added frontend and backend voting and vote updating
 - Checking if user is voting its own idea, if yes, error 400
 - Added comment submitting and retrieval backend
-- Changed layout of homepage (to fix)
+- Changed homepage layout (to fix)
+
+23/02
+- Fixed navbar visual (TODO: Add routes to popular, unpopular
+- Added comments count to idea card
+- Changed publish page
+- Fixed commentBox
+- Added comments functionality (frontend logic and backend logic)
+- Refactor login component to clear token on initialization; update navbar with home and logout links; enhance publish form styling and structure
+- Add idea detail component and update comment handling; refactor routes and types
+
+24/02
+- Added comment section (rendere più carina?)
+- Push comment when publishing
+
+
+26/02
+- Buttons are working and reloaded dinamically
+- currentPage, totalPages and other graphic elements are reloaded automatically
+- Incremento e decremento num pagine al click
+			- Inviare una richiesta per le nuove idee ad ogni click
+			- Modificare la funzione che invia le idee
+- Order ideas
+					- DONE Controverse (Home): Quanti più upvotes e downvotes possibili e la somma più vicina a 0 DELL'ULTIMA SETTIMANA
+							Quanti più upvotes e downvotes possibili = totale
+							Differenza più vicina a 0
+					- DONE Mainstream: Upvotes - downvotes più alto della settimana TODO: CAPIRE PERCHé SPOSTA LE IDEE NEL FRONTEND
+					- TODO Unpopular: Upvotes - downvotes più basso dell'ultima settimana
+- TODO: Paginazione delle idee:
+	- Backend: Modifica funzione di recupero delle idee
+
+		
+
+27/02
+- Updated routes and requests for controversial, mainstream, unpopular
+- Updated navbar's routerLinks
+- TODO:

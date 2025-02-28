@@ -1,16 +1,16 @@
 "use strict";
 
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes } from "sequelize";
 import sequelize from "../data/db.js";
 
 class User extends Model {
-
-  static createModel(){
-    User.init({
+  static createModel() {
+    User.init(
+      {
         id: {
           type: DataTypes.INTEGER,
           autoIncrement: true,
-          primaryKey: true
+          primaryKey: true,
         },
         username: {
           type: DataTypes.STRING,
@@ -18,8 +18,8 @@ class User extends Model {
           unique: true,
           validate: {
             notEmpty: true,
-            len: [4, 20]
-          }
+            len: [4, 20],
+          },
         },
         email: {
           type: DataTypes.STRING,
@@ -27,38 +27,36 @@ class User extends Model {
           unique: true,
           validate: {
             notEmpty: true,
-            isEmail: true
-          }
+            isEmail: true,
+          },
         },
         password: {
           type: DataTypes.STRING,
           allowNull: false,
           validate: {
             notEmpty: true,
-          }
-        }
-      }, 
+          },
+        },
+      },
       {
         sequelize,
-        modelName: 'User',
+        modelName: "User",
         tableName: "Users",
-        schema: "h"
-      });
-    }
+        schema: "h",
+      },
+    );
   }
-
-
-
-export function getUserbyUsername(username){
-  return User.findOne({ where: { username: username }});
 }
 
-export async function getUsernameById(id){
-  const user = await User.findOne({where: {id: id}});
-  if(user){
+export function getUserbyUsername(username) {
+  return User.findOne({ where: { username: username } });
+}
+
+export async function getUsernameById(id) {
+  const user = await User.findOne({ where: { id: id } });
+  if (user) {
     return user.username;
   }
 }
-
 
 export default User;
