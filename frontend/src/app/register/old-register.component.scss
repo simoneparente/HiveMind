@@ -1,0 +1,118 @@
+body,
+html {
+  background-color: #f0f4f8;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 1fr;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.logo-container {
+  text-align: center;
+  img {
+    width: 50%;
+    max-width: 300px;
+  }
+}
+
+.register-box {
+  background: #fff;
+  align-items: center;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
+}
+
+.register-box h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.input-group {
+  margin-bottom: 15px;
+  text-align: left;
+  position: relative;
+  margin-top: 0.5px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #ffffff;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #3eaeed;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button.navigator {
+  background-color: #6e6e6e;
+}
+
+button:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+p {
+  margin-top: 10px;
+  color: #666;
+}
+
+p a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+p a:hover {
+  text-decoration: underline;
+}
+
+.disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.showPassword {
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 30%;
+}
+
+.showPassword.active {
+  position: absolute;
+  right: 10px;
+  top: 70%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  opacity: 55%;
+}

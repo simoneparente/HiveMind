@@ -28,10 +28,12 @@ export class LoginComponent {
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
   });
-  showPassword = false;
+  logoImg = 'assets/HiveMindLogo.png';
+  logoAlt = 'HiveMind Logo';
   showPasswordImg = 'assets/showPassword.png';
   showPasswordAlt = 'Show Password';
-
+  showPassword = false;
+  
   constructor(
     private router: Router,
     private http: HttpClient,
