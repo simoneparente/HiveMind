@@ -7,7 +7,7 @@ import { provideMarkdown } from 'ngx-markdown';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
-import { authInterceptor } from './_interceptors/auth-interceptor.service';
+import { authInterceptor } from './_interceptors/auth/auth-interceptor.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
