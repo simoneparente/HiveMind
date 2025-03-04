@@ -54,3 +54,6 @@
 - Updated routes and requests for controversial, mainstream, unpopular
 - Updated navbar's routerLinks
 - TODO:
+
+04/03
+- Created dockerfiles and docker-compose

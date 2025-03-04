@@ -7,18 +7,25 @@ import { createAssociations } from "../models/associations.js";
 import Vote from "../models/Vote.js";
 import Comment from "../models/Comment.js";
 
-const DB_URL = process.env.DB_URL;
+const { DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, DB_NAME } = process.env;
 
-if (!DB_URL) {
-  throw new Error("DB_URL not defined in .env file");
+if (!DB_USER || !DB_PASSWORD || !DB_HOST || !DB_PORT || !DB_NAME) {
+  throw new Error("One or more required environment variables is not defined");
 }
 
-const sequelize = new Sequelize(DB_URL);
+const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
+  host: DB_HOST,
+  port: DB_PORT,
+  dialect: "postgres",
+  schema: "h",
+});
 
 export const connect = async () => {
   try {
     await sequelize.authenticate();
     console.log("Connection has been established successfully.");
+
+    await sequelize.query(`CREATE SCHEMA IF NOT EXISTS h;`);
 
     User.createModel();
     Idea.createModel();
