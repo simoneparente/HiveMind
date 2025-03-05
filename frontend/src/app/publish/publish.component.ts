@@ -11,11 +11,12 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth/auth.service';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { NavbarComponent } from '../navbar/navbar.component';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-publish',
   standalone: true,
-  imports: [ReactiveFormsModule, MarkdownModule, RouterLink, NavbarComponent],
+  imports: [ReactiveFormsModule, MarkdownModule, RouterLink, NavbarComponent, FooterComponent],
   templateUrl: './publish.component.html',
   styleUrl: './publish.component.scss',
 })
