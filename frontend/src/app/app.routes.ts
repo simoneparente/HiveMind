@@ -5,12 +5,13 @@ import { HomeComponent } from './home/home.component';
 import { PublishComponent } from './publish/publish.component';
 import { IdeaDetailComponent } from './idea-detail/idea-detail.component';
 import { AuthGuard } from './_guards/auth-guard.guard';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: '/home',
+    redirectTo: '/welcome',
     title: 'Redirect...',
   },
   {
@@ -32,11 +33,13 @@ export const routes: Routes = [
   {
     path: 'publish',
     title: 'Publish',
+    canActivate: [AuthGuard],
     component: PublishComponent,
   },
   {
     path: 'idea/:id',
     title: 'Idea Page',
+    canActivate: [AuthGuard],
     component: IdeaDetailComponent,
   },
   {
@@ -44,4 +47,9 @@ export const routes: Routes = [
     title: 'Logout',
     redirectTo: '/login',
   },
+  {
+    path: 'welcome',
+    title: 'Welcome to HiveMind',
+    component: LandingPageComponent
+  }
 ];
