@@ -43,5 +43,5 @@ export const routes: Routes = [
     path: 'logout',
     title: 'Logout',
     redirectTo: '/login',
-  }
+  },
 ];
