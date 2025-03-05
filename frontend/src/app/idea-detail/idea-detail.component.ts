@@ -6,11 +6,12 @@ import { ToastrService } from 'ngx-toastr';
 import { IdeaType } from '../_services/rest-backend/idea.type';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-idea-detail',
   standalone: true,
-  imports: [IdeaCardComponent, NavbarComponent, CommonModule],
+  imports: [IdeaCardComponent, NavbarComponent, CommonModule, FooterComponent],
   templateUrl: './idea-detail.component.html',
   styleUrl: './idea-detail.component.scss',
 })
