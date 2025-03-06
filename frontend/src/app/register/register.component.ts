@@ -7,15 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
 import { AuthService } from '../_services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, FooterComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss',
 })

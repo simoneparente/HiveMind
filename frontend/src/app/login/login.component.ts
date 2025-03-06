@@ -7,15 +7,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-import { lastValueFrom } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth/auth.service';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterModule],
+  imports: [ReactiveFormsModule, RouterModule, FooterComponent],
   providers: [RestBackendService],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
