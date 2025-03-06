@@ -75,7 +75,6 @@ class AuthController {
     });
   }
 
-  //TODO: Change expiration time to 24h
   static generateToken(user) {
     const payload = {
       id: user.dataValues.id,
@@ -83,7 +82,7 @@ class AuthController {
       email: user.dataValues.email,
     };
     try {
-      const token = Jwt.sign(payload, SECRET_KEY, { expiresIn: "365d" });
+      const token = Jwt.sign(payload, SECRET_KEY, { expiresIn: "24h" });
       return token;
     } catch (error) {
       Logger.logMessage(`Error generating token: ${error}`, "ERROR");
@@ -98,15 +97,12 @@ class AuthController {
   static async getUserIdByToken(header) {
     let userId = null;
     const token = header.split(" ")[1];
-    //Logger.logMessage(`Token: ${token}`, "DEBUG");
     try {
       const decoded = Jwt.decode(token);
-      //Logger.logMessage(`Decoded token: ${JSON.stringify(decoded)}`, "DEBUG");
       userId = decoded.id;
     } catch (error) {
       Logger.logMessage(`Error decoding token: ${error}`, "ERROR");
     }
-    //Logger.logMessage(`User ID: ${userId}`, "DEBUG");
     return userId;
   }
 }

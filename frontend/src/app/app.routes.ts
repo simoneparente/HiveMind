@@ -15,6 +15,11 @@ export const routes: Routes = [
     title: 'Redirect...',
   },
   {
+    path: 'welcome',
+    title: 'Welcome to HiveMind',
+    component: LandingPageComponent
+  },
+  {
     path: 'home',
     title: 'Home - HiveMind',
     canActivate: [AuthGuard],
@@ -47,9 +52,4 @@ export const routes: Routes = [
     title: 'Logout',
     redirectTo: '/login',
   },
-  {
-    path: 'welcome',
-    title: 'Welcome to HiveMind',
-    component: LandingPageComponent
-  }
 ];
