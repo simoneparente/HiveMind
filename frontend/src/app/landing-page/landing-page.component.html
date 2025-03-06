@@ -1,12 +1,9 @@
 <!-- Hero Section -->
 <header class="bg-blue-600 text-white py-16">
     <div class="container px-3 sm:px-6 lg:px-10 mx-auto text-center">
+      <img src="assets/HiveMindLogo.png" class="p-1 w-32 mx-auto" alt="HiveMind Logo">
       <h1 class="text-5xl font-bold mb-4">HiveMind</h1>
       <p class="text-xl mb-8">The social network to share ideas and opinions.</p>
-      <a [routerLink]="registerPath"
-         class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:bg-gray-100">
-        Register Now
-      </a>
     </div>
   </header>
   
@@ -18,9 +15,20 @@
         <!-- Publish Ideas -->
         <div class="flex flex-col items-center text-center">
           <div class="mb-4 p-4 rounded-full bg-blue-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-            </svg>
+            <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-10 w-10"
+          fill="blue"
+          viewBox="0 0 24 24"
+          stroke="blue"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+          />
+        </svg>
           </div>
           <h3 class="text-xl font-bold mb-2 text-blue-700">Publish Ideas</h3>
           <p class="text-gray-600">Share your ideas with Markdown-formatted text and reach a passionate community.</p>
@@ -28,9 +36,20 @@
         <!-- Vote on Ideas -->
         <div class="flex flex-col items-center text-center">
           <div class="mb-4 p-4 rounded-full bg-orange-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-orange-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 9l-3 3m0 0l-3-3m3 3V4m0 12v5"/>
-            </svg>
+            
+            <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke-width="1.5"
+          stroke="currentColor"
+          class="w-10 h-10 text-orange-600"
+        >
+          <path
+          stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9"
+          />
+        </svg>
           </div>
           <h3 class="text-xl font-bold mb-2 text-orange-700">Vote</h3>
           <p class="text-gray-600">Express your agreement or disagreement with upvotes and downvotes, actively participating in the discussion.</p>
@@ -38,9 +57,17 @@
         <!-- Comment -->
         <div class="flex flex-col items-center text-center">
           <div class="mb-4 p-4 rounded-full bg-green-100">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2v11a2 2 0 002 2z"/>
-            </svg>
+            <svg id='Comments_24' width='24' height='24' class="w-10 h-10 text-green-600" viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'>
+              <rect width='24' height='24' stroke='none' fill='#000000' opacity='0'/>
+              <g transform="matrix(0.77 0 0 0.77 12 12)">
+                <path 
+                  style="stroke: none; fill: green;" 
+                  transform="translate(-16, -17.71)" 
+                  d="M 3 6 L 3 26 L 12.585938 26 L 16 29.414063 L 19.414063 26 L 29 26 L 29 6 Z M 5 8 L 27 8 L 27 24 L 18.585938 24 L 16 26.585938 L 13.414063 24 L 5 24 Z M 9 11 L 9 13 L 23 13 L 23 11 Z M 9 15 L 9 17 L 23 17 L 23 15 Z M 9 19 L 9 21 L 19 21 L 19 19 Z" 
+                  stroke-linecap="round" 
+                />
+              </g>
+            </svg>                               
           </div>
           <h3 class="text-xl font-bold mb-2 text-green-700">Comment</h3>
           <p class="text-gray-600">Join the discussion by leaving comments and sharing your opinions with other users.</p>
@@ -55,18 +82,24 @@
       <h2 class="text-4xl font-bold mb-4">Join HiveMind today!</h2>
       <p class="text-xl mb-8">Become part of our community and start sharing your ideas and opinions.</p>
       <a [routerLink]="registerPath"
-         class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:bg-gray-100">
+         class="inline-block bg-white text-blue-600 font-semibold px-8 py-3 mx-1.5 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:bg-gray-100">
         Register Now
+      </a>
+      <a [routerLink]="loginPath"
+         class="inline-block bg-blue-500 font-semibold px-8 py-3 mx-1.5 rounded-2xl shadow-sm hover:shadow-lg transition-all duration-300 border border-gray-100 hover:text-gray-100">
+        Login
       </a>
     </div>
   </section>
+
+
   
   <!-- Footer -->
   <footer class="bg-gray-100 text-gray-800 py-6 w-full">
     <div class="container mx-auto px-4 flex flex-col md:flex-row items-center justify-between">
       <!-- Back to Top -->
       <div class="mb-4 md:mb-0">
-        <a href="#" class="inline-flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors hover:bg-[#0d6efd]">
+        <a (click)="scrollToTop()" class="inline-flex items-center space-x-2 px-3 py-2 rounded-lg transition-colors hover:bg-[#0d6efd] hover:cursor-pointer">
           <span>Back to top</span>
           <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
             <path d="M4 5V3h16v2zm7 16V10.8l-2.6 2.6L7 12l5-5l5 5l-1.4 1.4l-2.6-2.6V21z"/>
@@ -91,7 +124,7 @@
         <p>&copy; 2025 HiveMind. All rights reserved.</p>
         <p class="text-sm">
           License:
-          <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" class="underline transition-colors hover:bg-[#0d6efd]">GPL 3.0</a>
+          <a href="https://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank" class="underline transition-colors hover:text-gray-500">GPL 3.0</a>
         </p>
       </div>
     </div>

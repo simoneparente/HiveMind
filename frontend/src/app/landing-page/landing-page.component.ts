@@ -11,4 +11,9 @@ import { RouterLink } from '@angular/router';
 export class LandingPageComponent {
 
   registerPath = '/register';
+  loginPath = '/login';
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
+  }
 }
