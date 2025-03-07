@@ -1,79 +1,48 @@
-"use strict";
-import Idea from "../models/Idea.js";
-import Vote from "../models/Vote.js";
-import Logger from "../utils/Logger.js";
-import AuthController from "./AuthController.js";
+  "use strict";
+  import Idea from "../models/Idea.js";
+  import Vote from "../models/Vote.js";
+  import Logger from "../utils/Logger.js";
+  import AuthController from "./AuthController.js";
 
-class VoteController {
-  static async upvote(req, res) {
-    try {
-      let { id } = req.params;
+  class VoteController {
+    
+    static async upvote(req, res) {
+      VoteController.vote(req, res, 1);
+    }
+    
+    static async downvote(req, res) {
+      VoteController.vote(req, res, -1);
+    }
+
+
+    static async vote(req, res, vote){
+      try{
+        let { id } = req.params;
       id = id.split(":")[1];
-      Logger.logMessage(`Upvoting idea ${id}`, "DEBUG");
+      Logger.logMessage(`Voting idea ${id}`, "DEBUG");
       const userId = await AuthController.getUserIdByToken(
-        req.headers.authorization,
+        req.headers.authorization
       );
-
-      const idea = await Idea.findOne({ where: { id } });
-      if (idea.userId === userId) {
-        return res.status(400).json({ error: "You can't vote your own idea" });
+      const idea = await Idea.findOne({where: {id}});
+      if (idea.userId === userId){
+        return res.status(400).json({error: "You can't vote your own idea"});
       }
-
-      const vote = await Vote.findOne({ where: { userId, ideaId: id } });
-      if (!vote) {
-        await Vote.create({ vote: 1, userId, ideaId: id });
-        return res.status(201).json({ message: "Upvote registered" });
+      const voteAlreadyExists = await Vote.findOne({where: {userId, ideaId: id}});
+      if(!voteAlreadyExists){
+        await Vote.create({vote: vote, userId, ideaId: id});
+        return res.status(201).json({message: "Vote registered"});
       }
-
-      if (vote.vote === -1) {
-        await vote.update({ vote: 1 });
-        return res
-          .status(200)
-          .json({ message: "Vote updated from downvote to upvote" });
-      } else {
-        await vote.destroy();
-        return res.status(200).json({ message: "Upvote removed" });
+      if (voteAlreadyExists.vote === vote){
+        await voteAlreadyExists.destroy();
+        return res.status(200).json({message: "Vote removed"});
       }
-    } catch (e) {
-      Logger.logMessage(`Error upvoting idea: ${e.message}`, "ERROR");
-      return res.status(500).json({ error: e.message });
+      await voteAlreadyExists.update({vote});
+      return res.status(200).json({message: "Vote updated"});
+      } catch (e){
+        Logger.logMessage(`Error voting idea: ${e.message}`, "ERROR");
+        return res.status(500).json({error: e.message});
     }
   }
-
-  static async downvote(req, res) {
-    try {
-      let { id } = req.params;
-      id = id.split(":")[1];
-      Logger.logMessage(`Upvoting idea ${id}`, "DEBUG");
-      const userId = await AuthController.getUserIdByToken(
-        req.headers.authorization,
-      );
-
-      const idea = await Idea.findOne({ where: { id } });
-      if (idea.userId === userId) {
-        return res.status(400).json({ error: "You can't vote your own idea" });
-      }
-
-      const vote = await Vote.findOne({ where: { userId, ideaId: id } });
-      if (!vote) {
-        await Vote.create({ vote: -1, userId, ideaId: id });
-        return res.status(201).json({ message: "Downvote registered" });
-      }
-
-      if (vote.vote === 1) {
-        await vote.update({ vote: -1 });
-        return res
-          .status(200)
-          .json({ message: "Vote updated from upvote to downvote" });
-      } else {
-        await vote.destroy();
-        return res.status(200).json({ message: "Downvote removed" });
-      }
-    } catch (e) {
-      Logger.logMessage(`Error downvoting idea: ${e.message}`, "ERROR");
-      return res.status(500).json({ error: e.message });
-    }
   }
-}
 
-export default VoteController;
+  export default VoteController;
