@@ -42,9 +42,7 @@ export class IdeaCardComponent {
   detailPath = ``;
 
   ngOnInit() {
-    //console.log(`[INFO] Loading idea [${this.ideaId}]`);
     this.loadIdea();
-    //console.log(`[INFO] Idea ${this.ideaId} loaded`);
   }
 
   loadIdea() {
@@ -58,10 +56,6 @@ export class IdeaCardComponent {
         this.votes.upvotes = response.upvotes;
         this.votes.downvotes = response.downvotes;
         this.idea.date = this.convertDate(response.dateTime);
-        //console.log(`Response for idea ${response.id}: `);
-        //console.log(response);
-        //console.log(`Idea ${response.id} len:  ${response.Comments.length}`);
-        //console.log(response.upvotes);
       },
       error: (err) => {
         this.toastr.error('Error fetching idea: ', err);

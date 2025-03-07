@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IdeaType } from '../_services/rest-backend/idea.type';
 import { IdeaCardComponent } from '../idea-card/idea-card.component';
@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
-  @Input() itemsPerPage = 12; //Non 10 perché 12 è divisibile per 2, 3 e 4
+  @Input() itemsPerPage = 12; //12 because it is a multiple of 2, 3 and 4 (for grid layout)
   sortBy = 'controversial';
   currentPage = 1;
   totalPages = 0;
@@ -33,14 +33,14 @@ export class PaginatorComponent {
       if (sortParam) {
         this.sortBy = sortParam;
       }
-      this.currentPage = 1; // Reset to first page when sortBy changes
+      this.currentPage = 1;
       this.loadIdeas();
     });
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes['sortBy'] && !changes['sortBy'].isFirstChange()) {
-      this.currentPage = 1; // Reset to first page when sortBy changes
+      this.currentPage = 1;
       this.loadIdeas();
     }
   }

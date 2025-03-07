@@ -8,8 +8,6 @@ import {
 import { jwtDecode } from 'jwt-decode';
 import { AuthState } from './auth-state.type';
 
-// Service to manage the authentication state of the user
-
 @Injectable({
   providedIn: 'root',
 })
@@ -74,12 +72,11 @@ export class AuthService {
         const decodedToken = jwtDecode(token);
         const expiration = decodedToken.exp;
         if (expiration === undefined || Date.now() >= expiration * 1000) {
-          return false; //expiration not available or in the past
+          return false;
         } else {
-          return true; //token not expired
+          return true;
         }
       } catch (error) {
-        //invalid token
         return false;
       }
     }

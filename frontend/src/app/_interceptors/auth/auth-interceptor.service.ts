@@ -9,17 +9,14 @@ export function authInterceptor(
   const authService = inject(AuthService);
   const token = authService.getToken();
 
-  //console.log('Token:', token);
   if (token) {
-    // Clone the request and add the Authorization header with the token
-    //console.log("Adding token to request");
+    // Clone request and add Authorization header with token
     request = request.clone({
       setHeaders: {
         Authorization: token,
       },
     });
   }
-  //console.log(request);
 
   return next(request);
 }

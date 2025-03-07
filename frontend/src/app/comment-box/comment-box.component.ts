@@ -38,7 +38,6 @@ export class CommentBoxComponent {
       };
       this.restBackendService.publishComment(request).subscribe({
         next: (response) => {
-          //console.log(`[INFO] Comment published: ${response.message}`);
           this.commentAdded.emit(this.commentForm.value.comment!);
           this.commentForm.reset();
         },
