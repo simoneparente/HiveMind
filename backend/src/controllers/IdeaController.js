@@ -23,7 +23,7 @@ class IdeaController {
     const idea = Idea.build({
       title: req.body.title,
       description: req.body.description,
-      dateTime: new Date(), // or use a default value for dateTime
+      dateTime: new Date(),
       userId: user.dataValues.id,
     });
     try {
@@ -36,8 +36,12 @@ class IdeaController {
     }
   }
 
-  static async getControversialIdeas(req, res) {
+  static async getIdeas(res, order, options = {}) {
     try {
+      const scoreExpression = options.useAbsoluteScore ?
+       'ABS(SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END))'
+        : 'SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END)';
+
       let ideas = await Idea.findAll({
         include: [
           {
@@ -71,9 +75,7 @@ class IdeaController {
             "Downvotes",
           ],
           [
-            Sequelize.literal(
-              'ABS(SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END))',
-            ),
+            Sequelize.literal(scoreExpression),
             "score",
           ],
         ],
@@ -83,135 +85,41 @@ class IdeaController {
           },
         },
         group: ["Idea.id"],
-        order: [
-          [Sequelize.literal('"Total"'), "DESC"],
-          [Sequelize.literal("score"), "ASC"],
-        ],
+        order: order,
       });
 
       return res.status(200).json(ideas);
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
-  }
+}
 
-  static async getMainstreamIdeas(req, res) {
-    try {
-      let ideas = await Idea.findAll({
-        include: [
-          {
-            model: Vote,
-            attributes: [],
-            duplicating: false,
-          },
-        ],
-        attributes: [
-          "id",
-          "title",
-          "description",
-          "dateTime",
-          [Sequelize.fn("COUNT", Sequelize.col("Votes.ideaId")), "Total"],
-          [
-            Sequelize.fn(
-              "SUM",
-              Sequelize.literal(
-                'CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END',
-              ),
-            ),
-            "Upvotes",
-          ],
-          [
-            Sequelize.fn(
-              "SUM",
-              Sequelize.literal(
-                'CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END',
-              ),
-            ),
-            "Downvotes",
-          ],
-          [
-            Sequelize.literal(
-              'SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END)',
-            ),
-            "score",
-          ],
-        ],
-        where: {
-          dateTime: {
-            [Sequelize.Op.gt]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000),
-          },
-        },
-        group: ["Idea.id"],
-        order: [
-          [Sequelize.literal("score"), "DESC"],
-          [Sequelize.literal('"Total"'), "DESC"],
-        ],
-      });
+/**
+ * According to me, the controversial ideas are the ones with the lowest absolute score and the highest number of votes
+ * Otherwise, ideas with a high number of votes would always be displayed as controversial, before 
+ * ideas with a lower number of votes but with an absolute score closer to 0.
+ */
+static async getControversialIdeas(req, res) {
+    return this.getIdeas(res, [
+      [Sequelize.literal("score"), "ASC"],
+      [Sequelize.literal('"Total"'), "DESC"],
+      ], { useAbsoluteScore: true });
+}
 
-      return res.status(200).json(ideas);
-    } catch (e) {
-      return res.status(500).json({ error: e.message });
-    }
-  }
+static async getMainstreamIdeas(req, res) {
+    return this.getIdeas(res, [
+        [Sequelize.literal("score"), "DESC"],
+        [Sequelize.literal('"Total"'), "DESC"],
+    ]);
+}
 
-  static async getUnpopularIdeas(req, res) {
-    try {
-      let ideas = await Idea.findAll({
-        include: [
-          {
-            model: Vote,
-            attributes: [],
-            duplicating: false,
-          },
-        ],
-        attributes: [
-          "id",
-          "title",
-          "description",
-          "dateTime",
-          [Sequelize.fn("COUNT", Sequelize.col("Votes.ideaId")), "Total"],
-          [
-            Sequelize.fn(
-              "SUM",
-              Sequelize.literal(
-                'CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END',
-              ),
-            ),
-            "Upvotes",
-          ],
-          [
-            Sequelize.fn(
-              "SUM",
-              Sequelize.literal(
-                'CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END',
-              ),
-            ),
-            "Downvotes",
-          ],
-          [
-            Sequelize.literal(
-              'SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END)',
-            ),
-            "score",
-          ],
-        ],
-        where: {
-          dateTime: {
-            [Sequelize.Op.gt]: new Date(new Date() - 7 * 24 * 60 * 60 * 1000),
-          },
-        },
-        group: ["Idea.id"],
-        order: [
-          [Sequelize.literal("score"), "ASC"],
-          [Sequelize.literal('"Total"'), "DESC"],
-        ],
-      });
+static async getUnpopularIdeas(req, res) {
+    return this.getIdeas(res, [
+        [Sequelize.literal("score"), "ASC"],
+        [Sequelize.literal('"Total"'), "DESC"],
+    ]);
+}
 
-      return res.status(200).json(ideas);
-    } catch (e) {
-      return res.status(500).json({ error: e.message });
-    }
-  }
 
   static async getIdeaById(req, res) {
     let id = IdeaController.getIdeaId(req.params.id);
@@ -241,7 +149,7 @@ class IdeaController {
         .status(404)
         .json({ error: `Error 404: Idea ${id} not found:` });
     }
-    idea = idea.get({ plain: true }); // Converto in plain object così da poter aggiungere i voti
+    idea = idea.get({ plain: true }); // Converted to plain object to add votes
     [idea.upvotes, idea.downvotes] = await IdeaController.getVotes(id);
     Logger.logMessage(
       `Idea ${id} found, ${idea.upvotes} upvotes, ${idea.downvotes} downvotes`,
