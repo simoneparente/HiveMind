@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "start": "dotenvx run -- node src/index.js",
+    "clean": "dotenvx run -- node src/cleanDatabase.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Simone Parente",
