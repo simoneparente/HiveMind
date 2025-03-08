@@ -84,9 +84,12 @@ export class IdeaCardComponent {
         this.toastr.success('Upvoted!');
         this.updateVotes();
       },
-      error: (err: ResponseType) => {
-        this.toastr.error('An error occurred while upvoting');
-        console.log('Error: ' + err.message);
+      error: (err) => {
+        if(err.error.error.includes('own')) {
+          this.toastr.error('You cannot upvote your own idea', 'Error');
+        } else{
+          this.toastr.error('An error occurred while upvoting', 'Unknown Error');
+        }
       },
     });
   }
@@ -104,8 +107,11 @@ export class IdeaCardComponent {
         this.updateVotes();
       },
       error: (err) => {
-        this.toastr.error('An error occurred while downvoting');
-        console.log('Error: ' + err.message);
+        if(err.error.error.includes('own')) {
+          this.toastr.error('You cannot downvote your own idea', 'Error');
+        } else{
+          this.toastr.error('An error occurred while upvoting', 'Unknown Error');
+        }
       },
     });
   }
@@ -117,7 +123,7 @@ export class IdeaCardComponent {
         this.votes.downvotes = response.downvotes;
       },
       error: (err) => {
-        this.toastr.error('Error updating votes: ', err);
+        this.toastr.error('Error updating votes: ');
         console.log('Error: ' + err.message);
       },
     });
