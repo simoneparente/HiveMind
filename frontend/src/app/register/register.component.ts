@@ -50,7 +50,10 @@ export class RegisterComponent {
       console.log(request);
       this.restBackendService.register(request).subscribe({
         error: (err) => {
-          this.toastr.error(err.error, 'Error!');
+          console.log(err);
+          if(err.error.error.includes('username') || err.error.error.includes('email')) {
+            this.toastr.error('Username or email already exists', 'Oops! Check credentials');
+          }
         },
         complete: () => {
           this.toastr.success(
@@ -65,7 +68,7 @@ export class RegisterComponent {
 
   checkFields() {
     if (!this.registerForm.valid) {
-      this.toastr.error('Please fill in all fields');
+      this.toastr.error('Please fill in all fields', 'Oops! Check fields');
       return;
     }
 
@@ -85,22 +88,6 @@ export class RegisterComponent {
 
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
-    const passwordInput = document.getElementById('password');
-    const passwordToggleIcons = document.querySelectorAll('.showPassword');
-    if (passwordInput) {
-      (passwordInput as HTMLInputElement).type = this.showPassword
-        ? 'text'
-        : 'password';
-    }
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    if (confirmPasswordInput) {
-      (confirmPasswordInput as HTMLInputElement).type = this.showPassword
-        ? 'text'
-        : 'password';
-    }
-    passwordToggleIcons.forEach((icon) => {
-      icon.classList.toggle('active');
-    });
   }
 
   navigateTo(endpoint: string) {

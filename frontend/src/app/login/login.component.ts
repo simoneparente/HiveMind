@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -36,7 +35,6 @@ export class LoginComponent {
   
   constructor(
     private router: Router,
-    private http: HttpClient,
   ) {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
@@ -74,12 +72,6 @@ export class LoginComponent {
 
   toggleShowPassword() {
     this.showPassword = !this.showPassword;
-    const passwordInput = document.getElementById('password');
-    const passwordToggleIcon = document.querySelector('.showPassword');
-    (passwordInput as HTMLInputElement).type = this.showPassword
-      ? 'text'
-      : 'password';
-    passwordToggleIcon?.classList.toggle('active');
   }
 
   navigateTo(endpoint: string) {
