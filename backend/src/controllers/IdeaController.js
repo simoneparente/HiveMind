@@ -94,15 +94,11 @@ class IdeaController {
     }
 }
 
-/**
- * According to me, the controversial ideas are the ones with the lowest absolute score and the highest number of votes
- * Otherwise, ideas with a high number of votes would always be displayed as controversial, before 
- * ideas with a lower number of votes but with an absolute score closer to 0.
- */
+
 static async getControversialIdeas(req, res) {
     return this.getIdeas(res, [
-      [Sequelize.literal("score"), "ASC"],
       [Sequelize.literal('"Total"'), "DESC"],
+      [Sequelize.literal("score"), "ASC"],
       ], { useAbsoluteScore: true });
 }
 
