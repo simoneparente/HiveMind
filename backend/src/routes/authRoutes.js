@@ -77,7 +77,13 @@ authRouter.post("/register", AuthController.register);
  *                 type: string
  *     responses:
  *       200:
- *         description: Login successful
+ *         description: Login successful, JWT token returned in Authorization header
+ *         headers:
+ *           Authorization:
+ *             schema:
+ *               type: string
+ *               example: "Bearer eyJhbGciOiJIUzI1..."
+ *             description: JWT token for authentication
  *         content:
  *           application/json:
  *             schema:

@@ -10,6 +10,13 @@ const ideaRouter = Router();
  *     summary: Retrieve ideas
  *     description: Returns a list of ideas based on the sort criteria.
  *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "Bearer <token>"
+ *         description: The token for user authentication.
  *       - in: query
  *         name: sortBy
  *         schema:
@@ -79,6 +86,13 @@ ideaRouter.get("/get", (req, res) => {
  *         schema:
  *           type: integer
  *         description: The ID of the idea to retrieve.
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "Bearer <token>"
+ *         description: The token for user authentication.
  *     responses:
  *       200:
  *         description: An idea object
@@ -149,6 +163,14 @@ ideaRouter.get("/get/:id", IdeaController.getIdeaById);
  *   post:
  *     summary: Create a new idea
  *     description: Creates a new idea.
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         required: true
+ *         schema:
+ *           type: string
+ *           example: "Bearer <token>"
+ *         description: The token for user authentication.
  *     requestBody:
  *       required: true
  *       content:
