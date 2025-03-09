@@ -58,7 +58,7 @@ export class IdeaCardComponent {
         this.idea.date = this.convertDate(response.dateTime);
       },
       error: (err) => {
-        this.toastr.error('Error fetching idea: ', err);
+        this.toastr.error(`Error fetching idea ${this.ideaId}`, 'Unknown Error');
         console.log('Error: ' + err.message);
       },
     });
@@ -80,16 +80,13 @@ export class IdeaCardComponent {
       vote: '+1',
     };
     this.restBackendService.upvoteIdea(request).subscribe({
-      next: () => {
-        this.toastr.success('Upvoted!');
+      next: (res) => {
+        console.log(res);
+        this.handleToast(res);
         this.updateVotes();
       },
       error: (err) => {
-        if(err.error.error.includes('own')) {
-          this.toastr.error('You cannot upvote your own idea', 'Error');
-        } else{
-          this.toastr.error('An error occurred while upvoting', 'Unknown Error');
-        }
+        this.handleToast(err);
       },
     });
   }
@@ -102,16 +99,12 @@ export class IdeaCardComponent {
       vote: '-1',
     };
     this.restBackendService.downvoteIdea(request).subscribe({
-      next: () => {
-        this.toastr.success('Downvoted!');
+      next: (response) => {
+        this.handleToast(response);
         this.updateVotes();
       },
       error: (err) => {
-        if(err.error.error.includes('own')) {
-          this.toastr.error('You cannot downvote your own idea', 'Error');
-        } else{
-          this.toastr.error('An error occurred while upvoting', 'Unknown Error');
-        }
+        this.handleToast(err);
       },
     });
   }
@@ -123,10 +116,24 @@ export class IdeaCardComponent {
         this.votes.downvotes = response.downvotes;
       },
       error: (err) => {
-        this.toastr.error('Error updating votes: ');
+        this.handleToast(err);
         console.log('Error: ' + err.message);
       },
     });
+  }
+
+  handleToast(response: any) {
+    if(response.message.includes('registered')) {
+      this.toastr.success(`You successfully voted ${this.idea.username}'s idea`, 'Success');
+    } else if(response.message.includes('removed')) {
+      this.toastr.success('Vote removed', 'Success');
+    } else if(response.message.includes('updated')){
+      this.toastr.success('Vote updated', 'Success');
+    } else if(response.error.error.includes('own')) {
+      this.toastr.error('You cannot vote on your own idea', 'Error');
+    } else {
+      this.toastr.error('An error occurred', 'Unknown Error');
+    }
   }
 
   addComment(comment: string) {
