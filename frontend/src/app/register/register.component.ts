@@ -45,16 +45,11 @@ export class RegisterComponent {
       console.log(request);
       this.restBackendService.register(request).subscribe({
         error: (err) => {
-          console.log(err);
-          if (
-            err.error.error.includes('username') ||
-            err.error.error.includes('email')
-          ) {
             this.toastr.error(
-              'Username or email already exists',
-              'Oops! Check credentials',
+              'An error occurred while registering',
+              'Unknown Error',
             );
-          }
+          console.log(err);
         },
         complete: () => {
           this.toastr.success(
