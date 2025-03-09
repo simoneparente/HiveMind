@@ -9,14 +9,14 @@ import { RouterModule, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../_services/auth/auth.service';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
-import { FooterComponent } from "../footer/footer.component";
+import { FooterComponent } from '../footer/footer.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, FooterComponent],
   providers: [RestBackendService],
-  templateUrl: './login.component.html'
+  templateUrl: './login.component.html',
 })
 export class LoginComponent {
   authService = inject(AuthService);
@@ -31,10 +31,8 @@ export class LoginComponent {
   showPasswordImg = 'assets/showPassword.png';
   showPasswordAlt = 'Show Password';
   showPassword = false;
-  
-  constructor(
-    private readonly router: Router,
-  ) {
+
+  constructor(private readonly router: Router) {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('token');
     }

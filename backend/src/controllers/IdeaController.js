@@ -38,8 +38,8 @@ class IdeaController {
 
   static async getIdeas(res, order, options = {}) {
     try {
-      const scoreExpression = options.useAbsoluteScore ?
-       'ABS(SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END))'
+      const scoreExpression = options.useAbsoluteScore
+        ? 'ABS(SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END))'
         : 'SUM(CASE WHEN "Votes"."vote" = 1 THEN 1 ELSE 0 END) - SUM(CASE WHEN "Votes"."vote" = -1 THEN 1 ELSE 0 END)';
 
       let ideas = await Idea.findAll({
@@ -74,10 +74,7 @@ class IdeaController {
             ),
             "Downvotes",
           ],
-          [
-            Sequelize.literal(scoreExpression),
-            "score",
-          ],
+          [Sequelize.literal(scoreExpression), "score"],
         ],
         where: {
           dateTime: {
@@ -92,30 +89,32 @@ class IdeaController {
     } catch (e) {
       return res.status(500).json({ error: e.message });
     }
-}
+  }
 
-
-static async getControversialIdeas(req, res) {
-    return this.getIdeas(res, [
-      [Sequelize.literal('"Total"'), "DESC"],
-      [Sequelize.literal("score"), "ASC"],
-      ], { useAbsoluteScore: true });
-}
-
-static async getMainstreamIdeas(req, res) {
-    return this.getIdeas(res, [
-        [Sequelize.literal("score"), "DESC"],
+  static async getControversialIdeas(req, res) {
+    return this.getIdeas(
+      res,
+      [
         [Sequelize.literal('"Total"'), "DESC"],
-    ]);
-}
-
-static async getUnpopularIdeas(req, res) {
-    return this.getIdeas(res, [
         [Sequelize.literal("score"), "ASC"],
-        [Sequelize.literal('"Total"'), "DESC"],
-    ]);
-}
+      ],
+      { useAbsoluteScore: true },
+    );
+  }
 
+  static async getMainstreamIdeas(req, res) {
+    return this.getIdeas(res, [
+      [Sequelize.literal("score"), "DESC"],
+      [Sequelize.literal('"Total"'), "DESC"],
+    ]);
+  }
+
+  static async getUnpopularIdeas(req, res) {
+    return this.getIdeas(res, [
+      [Sequelize.literal("score"), "ASC"],
+      [Sequelize.literal('"Total"'), "DESC"],
+    ]);
+  }
 
   static async getIdeaById(req, res) {
     let id = IdeaController.getIdeaId(req.params.id);

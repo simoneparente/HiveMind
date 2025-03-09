@@ -17,7 +17,7 @@ export const routes: Routes = [
   {
     path: 'welcome',
     title: 'Welcome to HiveMind',
-    component: LandingPageComponent
+    component: LandingPageComponent,
   },
   {
     path: 'home',

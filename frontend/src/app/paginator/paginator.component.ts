@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-paginator',
   standalone: true,
   imports: [IdeaCardComponent, CommonModule],
-  templateUrl: './paginator.component.html'
+  templateUrl: './paginator.component.html',
 })
 export class PaginatorComponent {
   @Input() itemsPerPage = 12; //12 because it is a multiple of 2, 3 and 4 (for grid layout)

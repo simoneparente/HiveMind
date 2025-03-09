@@ -3,10 +3,7 @@ import { MarkdownModule } from 'ngx-markdown';
 import { CommentBoxComponent } from '../comment-box/comment-box.component';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { ToastrService } from 'ngx-toastr';
-import {
-  VoteRequest,
-  CommentType,
-} from '../_services/rest-backend/idea.type';
+import { VoteRequest, CommentType } from '../_services/rest-backend/idea.type';
 import { RouterLink } from '@angular/router';
 import { CommentSectionComponent } from '../comment-section/comment-section.component';
 
@@ -19,7 +16,7 @@ import { CommentSectionComponent } from '../comment-section/comment-section.comp
     CommentBoxComponent,
     CommentSectionComponent,
   ],
-  templateUrl: './idea-card.component.html'
+  templateUrl: './idea-card.component.html',
 })
 export class IdeaCardComponent {
   restBackendService = inject(RestBackendService);
@@ -56,7 +53,10 @@ export class IdeaCardComponent {
         this.idea.date = this.convertDate(response.dateTime);
       },
       error: (err) => {
-        this.toastr.error(`Error fetching idea ${this.ideaId}`, 'Unknown Error');
+        this.toastr.error(
+          `Error fetching idea ${this.ideaId}`,
+          'Unknown Error',
+        );
         console.log('Error: ' + err.message);
       },
     });
@@ -121,13 +121,16 @@ export class IdeaCardComponent {
   }
 
   handleToast(response: any) {
-    if(response.message.includes('registered')) {
-      this.toastr.success(`You successfully voted ${this.idea.username}'s idea`, 'Success');
-    } else if(response.message.includes('removed')) {
+    if (response.message.includes('registered')) {
+      this.toastr.success(
+        `You successfully voted ${this.idea.username}'s idea`,
+        'Success',
+      );
+    } else if (response.message.includes('removed')) {
       this.toastr.success('Vote removed', 'Success');
-    } else if(response.message.includes('updated')){
+    } else if (response.message.includes('updated')) {
       this.toastr.success('Vote updated', 'Success');
-    } else if(response.error.error.includes('own')) {
+    } else if (response.error.error.includes('own')) {
       this.toastr.error('You cannot vote on your own idea', 'Error');
     } else {
       this.toastr.error('An error occurred', 'Unknown Error');

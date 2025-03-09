@@ -31,9 +31,7 @@ export class RegisterComponent {
   showPasswordImg = 'assets/showPassword.png';
   showPasswordAlt = 'Show Password';
 
-  constructor(
-    private readonly router: Router,
-  ) {}
+  constructor(private readonly router: Router) {}
 
   register() {
     if (!this.checkFields()) {
@@ -48,8 +46,14 @@ export class RegisterComponent {
       this.restBackendService.register(request).subscribe({
         error: (err) => {
           console.log(err);
-          if(err.error.error.includes('username') || err.error.error.includes('email')) {
-            this.toastr.error('Username or email already exists', 'Oops! Check credentials');
+          if (
+            err.error.error.includes('username') ||
+            err.error.error.includes('email')
+          ) {
+            this.toastr.error(
+              'Username or email already exists',
+              'Oops! Check credentials',
+            );
           }
         },
         complete: () => {

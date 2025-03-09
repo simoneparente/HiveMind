@@ -7,7 +7,7 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NgbModule, CommonModule],
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   title = 'angular-app';

@@ -7,7 +7,7 @@ const __dirname = path.dirname(__filename);
 
 class Logger {
   static logMessage(message, level = "INFO", filename = "logs.txt") {
-    const date = new Date(); 
+    const date = new Date();
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
