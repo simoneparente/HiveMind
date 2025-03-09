@@ -9,8 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-paginator',
   standalone: true,
   imports: [IdeaCardComponent, CommonModule],
-  templateUrl: './paginator.component.html',
-  styleUrl: './paginator.component.scss',
+  templateUrl: './paginator.component.html'
 })
 export class PaginatorComponent {
   @Input() itemsPerPage = 12; //12 because it is a multiple of 2, 3 and 4 (for grid layout)
@@ -23,8 +22,8 @@ export class PaginatorComponent {
   isLoading = true;
 
   constructor(
-    private restBackendService: RestBackendService,
-    private route: ActivatedRoute,
+    private readonly restBackendService: RestBackendService,
+    private readonly route: ActivatedRoute,
   ) {}
 
   ngOnInit() {

@@ -16,8 +16,7 @@ import { PaginatorComponent } from '../paginator/paginator.component';
     FooterComponent,
   ],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss',
 })
 export class HomeComponent {
-  constructor(private router: Router) {}
+  constructor(private readonly router: Router) {}
 }

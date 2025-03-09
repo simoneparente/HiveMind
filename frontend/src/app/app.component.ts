@@ -7,12 +7,11 @@ import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NgbModule, CommonModule],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  templateUrl: './app.component.html'
 })
 export class AppComponent {
   title = 'angular-app';
-  constructor(private modalService: NgbModal) {}
+  constructor(private readonly modalService: NgbModal) {}
 
   public open(modal: any): void {
     this.modalService.open(modal);

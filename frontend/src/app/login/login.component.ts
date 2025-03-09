@@ -16,8 +16,7 @@ import { FooterComponent } from "../footer/footer.component";
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, FooterComponent],
   providers: [RestBackendService],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
   authService = inject(AuthService);
@@ -34,7 +33,7 @@ export class LoginComponent {
   showPassword = false;
   
   constructor(
-    private router: Router,
+    private readonly router: Router,
   ) {
     if (localStorage.getItem('token')) {
       localStorage.removeItem('token');

@@ -28,7 +28,7 @@ export class RestBackendService {
   login(loginRequest: AuthRequest): Observable<any> {
     return this.http.post(this.url + '/auth/login', loginRequest, {
       headers: this.httpOptions.headers,
-      observe: 'response' as 'response',
+      observe: 'response' as const,
     });
   }
 

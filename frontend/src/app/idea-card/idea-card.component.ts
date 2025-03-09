@@ -4,7 +4,6 @@ import { CommentBoxComponent } from '../comment-box/comment-box.component';
 import { RestBackendService } from '../_services/rest-backend/rest-backend.service';
 import { ToastrService } from 'ngx-toastr';
 import {
-  ResponseType,
   VoteRequest,
   CommentType,
 } from '../_services/rest-backend/idea.type';
@@ -20,8 +19,7 @@ import { CommentSectionComponent } from '../comment-section/comment-section.comp
     CommentBoxComponent,
     CommentSectionComponent,
   ],
-  templateUrl: './idea-card.component.html',
-  styleUrl: './idea-card.component.scss',
+  templateUrl: './idea-card.component.html'
 })
 export class IdeaCardComponent {
   restBackendService = inject(RestBackendService);

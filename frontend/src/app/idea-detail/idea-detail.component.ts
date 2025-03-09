@@ -13,7 +13,6 @@ import { FooterComponent } from "../footer/footer.component";
   standalone: true,
   imports: [IdeaCardComponent, NavbarComponent, CommonModule, FooterComponent],
   templateUrl: './idea-detail.component.html',
-  styleUrl: './idea-detail.component.scss',
 })
 export class IdeaDetailComponent implements OnInit {
   ideaId!: number;
@@ -21,7 +20,7 @@ export class IdeaDetailComponent implements OnInit {
   restBackendService = inject(RestBackendService);
   toastr = inject(ToastrService);
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private readonly route: ActivatedRoute) {}
 
   ngOnInit() {
     this.ideaId = +this.route.snapshot.paramMap.get('id')!;

@@ -13,8 +13,7 @@ import { RestBackendService } from '../_services/rest-backend/rest-backend.servi
   selector: 'app-comment-box',
   standalone: true,
   imports: [ReactiveFormsModule, CommonModule],
-  templateUrl: './comment-box.component.html',
-  styleUrl: './comment-box.component.scss',
+  templateUrl: './comment-box.component.html'
 })
 export class CommentBoxComponent {
   @Input() ideaId!: number;

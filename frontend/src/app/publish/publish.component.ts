@@ -1,5 +1,4 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import {
   FormControl,
   FormGroup,
@@ -16,9 +15,8 @@ import { FooterComponent } from "../footer/footer.component";
 @Component({
   selector: 'app-publish',
   standalone: true,
-  imports: [ReactiveFormsModule, MarkdownModule, RouterLink, NavbarComponent, FooterComponent],
+  imports: [ReactiveFormsModule, MarkdownModule, NavbarComponent, FooterComponent],
   templateUrl: './publish.component.html',
-  styleUrl: './publish.component.scss',
 })
 export class PublishComponent {
   toastr = inject(ToastrService);

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -17,7 +16,6 @@ import { FooterComponent } from '../footer/footer.component';
   standalone: true,
   imports: [ReactiveFormsModule, RouterModule, FooterComponent],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   authService = inject(AuthService);
@@ -34,8 +32,7 @@ export class RegisterComponent {
   showPasswordAlt = 'Show Password';
 
   constructor(
-    private router: Router,
-    private http: HttpClient,
+    private readonly router: Router,
   ) {}
 
   register() {

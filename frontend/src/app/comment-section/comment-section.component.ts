@@ -5,7 +5,6 @@ import { Component, Input } from '@angular/core';
   standalone: true,
   imports: [],
   templateUrl: './comment-section.component.html',
-  styleUrl: './comment-section.component.scss',
 })
 export class CommentSectionComponent {
   @Input() username!: string;
