@@ -3,6 +3,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import { swaggerSpec, swaggerUi } from "./swagger.js";
 
 import { connect } from "./data/db.js";
 import { requireAuthorization } from "./middleware/authorization.js";
@@ -30,6 +31,8 @@ app.listen(PORT, () => {
 });
 
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/auth", authRouter);
 
