@@ -16,7 +16,7 @@ class Idea extends Model {
           allowNull: false,
           validate: {
             notEmpty: true,
-            len: [4, 50],
+            len: [3, 50],
           },
         },
         description: {

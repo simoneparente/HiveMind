@@ -1,4 +1,3 @@
-//// filepath: d:\Universita\GitHub\HiveMind\backend\src\swagger.js
 import swaggerJsdoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
 
@@ -10,7 +9,7 @@ const swaggerOptions = {
       version: "1.0.0",
     },
   },
-  apis: ["./src/routes/*.js"], // Percorso ai tuoi endpoint
+  apis: ["./src/routes/*.js"],
 };
 
 export const swaggerSpec = swaggerJsdoc(swaggerOptions);

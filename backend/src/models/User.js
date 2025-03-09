@@ -18,7 +18,7 @@ class User extends Model {
           unique: true,
           validate: {
             notEmpty: true,
-            len: [4, 20],
+            len: [3, 20],
           },
         },
         email: {

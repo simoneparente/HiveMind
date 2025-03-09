@@ -16,7 +16,7 @@ class Comment extends Model {
           allowNull: false,
           validate: {
             notEmpty: true,
-            len: [4, 400],
+            len: [1, 400],
           },
         },
         userId: {

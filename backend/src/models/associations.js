@@ -16,5 +16,6 @@ export function createAssociations() {
   //---------------------------------------------------------
   Comment.belongsTo(User, { foreignKey: "userId" });
   Comment.belongsTo(Idea, { foreignKey: "ideaId" });
+  //---------------------------------------------------------
   console.log("\n\nAssociations created successfully\n\n");
 }

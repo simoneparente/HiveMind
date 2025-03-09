@@ -47,7 +47,6 @@ export class AuthService {
       token: token,
       isAuthenticated: this.verifyToken(token),
     });
-    console.log(this.authState);
   }
 
   updateUser(username: string | null) {
