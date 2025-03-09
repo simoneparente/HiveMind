@@ -5,7 +5,6 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import { connect } from "./data/db.js";
-import userRouter from "./routes/userRoutes.js";
 import { requireAuthorization } from "./middleware/authorization.js";
 import authRouter from "./routes/authRoutes.js";
 import ideaRouter from "./routes/ideaRoutes.js";
@@ -35,8 +34,6 @@ app.use(express.json());
 app.use("/api/auth", authRouter);
 
 app.use(requireAuthorization);
-
-app.use("/api/users", userRouter);
 
 app.use("/api/ideas", ideaRouter);
 
