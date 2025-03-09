@@ -41,7 +41,6 @@ export class RestBackendService {
   }
 
   getIdeas(sortBy: string): Observable<IdeaType[]> {
-    console.log(`Request to ${this.url}/ideas/get?sortBy=${sortBy}`);
     return this.http.get<IdeaType[]>(
       this.url + `/ideas/get?sortBy=${sortBy}`,
       this.httpOptions,
