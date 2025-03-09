@@ -1,7 +1,7 @@
 "use strict";
 
 import Idea from "../models/Idea.js";
-import User, { getUserbyUsername } from "../models/User.js";
+import User from "../models/User.js";
 import Vote from "../models/Vote.js";
 import Comment from "../models/Comment.js";
 import Logger from "../utils/Logger.js";
@@ -11,7 +11,7 @@ import Sequelize from "sequelize";
 class IdeaController {
   static async postIdea(req, res) {
     const { username } = req.body;
-    const user = await getUserbyUsername(username);
+    const user = await UserController.getUserbyUsername(username);
     if (!(await UserController.userExists(user))) {
       return res.status(404).json({ error: "User not found" });
     }

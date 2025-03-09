@@ -48,15 +48,4 @@ class User extends Model {
   }
 }
 
-export function getUserbyUsername(username) {
-  return User.findOne({ where: { username: username } });
-}
-
-export async function getUsernameById(id) {
-  const user = await User.findOne({ where: { id: id } });
-  if (user) {
-    return user.username;
-  }
-}
-
 export default User;

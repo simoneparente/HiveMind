@@ -4,14 +4,6 @@ import User from "../models/User.js";
 import Logger from "../utils/Logger.js";
 
 class UserController {
-  static async get(req, res) {
-    try {
-      const users = await User.findAll();
-      return res.status(200).json({ users });
-    } catch (error) {
-      return res.status(500).json({ error: error.message });
-    }
-  }
 
   static async userExists(user) {
     if (!user) {
@@ -19,6 +11,18 @@ class UserController {
       return false;
     }
     return true;
+  }
+
+  static async getUserbyUsername(username) {
+    return User.findOne({ where: { username: username } });
+  }
+
+  
+  static async getUsernameById(id) {
+    const user = await User.findOne({ where: { id: id } });
+    if (user) {
+      return user.username;
+    }
   }
 }
 
